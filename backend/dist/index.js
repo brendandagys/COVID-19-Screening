@@ -7,12 +7,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const path_1 = __importDefault(require("path"));
 const errorMiddleware_1 = require("./middleware/errorMiddleware");
+const userRoutes_1 = __importDefault(require("./routes/userRoutes"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config({ path: __dirname + '/../.env' });
 const database_1 = __importDefault(require("./config/database"));
 database_1.default();
 const app = express_1.default();
 app.use(express_1.default.json());
+app.use('/api/users', userRoutes_1.default);
 if (process.env.NODE_ENV === 'production') {
     // Express will serve up production assets like our main.js or main.css file
     app.use(express_1.default.static(path_1.default.join(__dirname, '/frontend/build')));
