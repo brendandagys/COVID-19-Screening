@@ -16,7 +16,7 @@ export const protect = expressAsyncHandler(
         token = req.headers.authorization.split(' ')[1]
         const decoded = jwt.verify(
           token,
-          process.env.JWT_SECRET ?? 'fjdkeeijfd'
+          process.env.JWT_SECRET as string
         ) as IToken
 
         req.user = await User.findById(decoded.id).select('-password')
