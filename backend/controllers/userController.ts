@@ -7,28 +7,30 @@ import generateToken from '../utils/generateJWT'
 // @desc    Authenticate user and get JWT
 // @route   POST /api/users/login
 // @access  Public
-const authUser = expressAsyncHandler(async (req: IRequest, res: Response) => {
-  const { username, password } = req.body
+const authenticateUser = expressAsyncHandler(
+  async (req: IRequest, res: Response) => {
+    const { username, password } = req.body
 
-  const user = await User.findOne({
-    username,
-  })
-
-  if (user && (await user.matchPassword(password))) {
-    res.json({
-      _id: user._id,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      username: user.username,
-      isAdministrator: user.isAdministrator,
-      token: generateToken(user._id.toString()),
+    const user = await User.findOne({
+      username,
     })
-  } else {
-    res.status(401)
-    throw new Error('Invalid email or password')
+
+    if (user && (await user.matchPassword(password))) {
+      res.json({
+        _id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        username: user.username,
+        isAdministrator: user.isAdministrator,
+        token: generateToken(user._id.toString()),
+      })
+    } else {
+      res.status(401)
+      throw new Error('Invalid email or password')
+    }
   }
-})
+)
 
 // @desc    Register a new user
 // @route   POST /api/users
@@ -99,4 +101,4 @@ const getUserProfile = expressAsyncHandler(
   }
 )
 
-export { authUser, registerUser, getUserProfile }
+export { authenticateUser, registerUser, getUserProfile }

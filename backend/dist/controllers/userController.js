@@ -39,14 +39,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUserProfile = exports.registerUser = exports.authUser = void 0;
+exports.getUserProfile = exports.registerUser = exports.authenticateUser = void 0;
 var express_async_handler_1 = __importDefault(require("express-async-handler"));
 var User_1 = __importDefault(require("../models/User"));
 var generateJWT_1 = __importDefault(require("../utils/generateJWT"));
 // @desc    Authenticate user and get JWT
 // @route   POST /api/users/login
 // @access  Public
-var authUser = express_async_handler_1.default(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+var authenticateUser = express_async_handler_1.default(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, username, password, user, _b;
     return __generator(this, function (_c) {
         switch (_c.label) {
@@ -83,7 +83,7 @@ var authUser = express_async_handler_1.default(function (req, res) { return __aw
         }
     });
 }); });
-exports.authUser = authUser;
+exports.authenticateUser = authenticateUser;
 // @desc    Register a new user
 // @route   POST /api/users
 // @access  Public

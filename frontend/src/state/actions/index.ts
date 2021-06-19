@@ -2,15 +2,11 @@ import { ActionType } from '../action-types'
 
 export interface LoginRequestAction {
   type: ActionType.LOGIN_REQUEST
-  payload: {
-    loading: boolean
-  }
 }
 
 export interface LoginSuccessAction {
   type: ActionType.LOGIN_SUCCESS
   payload: {
-    loading: boolean
     userInfo: {
       id: string
       firstName: string
@@ -26,14 +22,12 @@ export interface LoginSuccessAction {
 export interface LoginFailAction {
   type: ActionType.LOGIN_FAIL
   payload: {
-    loading: boolean
     error: string
   }
 }
 
 export interface LogoutAction {
   type: ActionType.LOGOUT
-  payload: {}
 }
 
 export type Action =

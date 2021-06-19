@@ -45,25 +45,24 @@ var User_1 = __importDefault(require("../models/User"));
 var express_async_handler_1 = __importDefault(require("express-async-handler"));
 exports.protect = express_async_handler_1.default(function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var token, decoded, _a, e_1;
-    var _b;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0:
                 if (!(req.headers.authorization &&
                     req.headers.authorization.startsWith('Bearer'))) return [3 /*break*/, 4];
-                _c.label = 1;
+                _b.label = 1;
             case 1:
-                _c.trys.push([1, 3, , 4]);
+                _b.trys.push([1, 3, , 4]);
                 token = req.headers.authorization.split(' ')[1];
-                decoded = jsonwebtoken_1.default.verify(token, (_b = process.env.JWT_SECRET) !== null && _b !== void 0 ? _b : 'fjdkeeijfd');
+                decoded = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
                 _a = req;
                 return [4 /*yield*/, User_1.default.findById(decoded.id).select('-password')];
             case 2:
-                _a.user = _c.sent();
+                _a.user = _b.sent();
                 next();
                 return [3 /*break*/, 4];
             case 3:
-                e_1 = _c.sent();
+                e_1 = _b.sent();
                 console.error(e_1);
                 res.status(401);
                 throw new Error('Not authorized, invalid token');
