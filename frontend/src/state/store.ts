@@ -6,9 +6,10 @@ import { UserInfo } from './reducers/userReducers'
 
 const userInfoStringFromStorage = localStorage.getItem('userInfo')
 
+// Coerce the null returned from .getItem() into {}
 const userInfoFromStorage: UserInfo = userInfoStringFromStorage
   ? JSON.parse(userInfoStringFromStorage)
-  : {}
+  : null
 
 const initialState = {
   authenticate: { userInfo: userInfoFromStorage },
