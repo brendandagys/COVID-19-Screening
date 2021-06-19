@@ -21,9 +21,7 @@ export interface LoginSuccessAction {
 
 export interface LoginFailAction {
   type: ActionType.LOGIN_FAIL
-  payload: {
-    error: string
-  }
+  payload: { error: string }
 }
 
 export interface LogoutAction {

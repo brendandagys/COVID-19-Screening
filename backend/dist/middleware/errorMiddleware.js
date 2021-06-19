@@ -7,7 +7,7 @@ var notFoundHandler = function (req, res, next) {
     next(error);
 };
 exports.notFoundHandler = notFoundHandler;
-var errorHandler = function (err, req, res) {
+var errorHandler = function (err, req, res, next) {
     console.log(err);
     var statusCode = res.statusCode === 200 ? 500 : res.statusCode;
     res.status(statusCode);

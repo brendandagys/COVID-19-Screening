@@ -37,10 +37,12 @@ export const login =
     } catch (e) {
       dispatch({
         type: ActionType.LOGIN_FAIL,
-        payload:
-          e.response && e.response.data.message
-            ? e.response.data.message
-            : e.message,
+        payload: {
+          error:
+            e.response && e.response.data.message
+              ? e.response.data.message
+              : e.message,
+        },
       })
     }
   }
