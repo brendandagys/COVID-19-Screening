@@ -1,6 +1,6 @@
 import asyncHandler from 'express-async-handler'
 import { Response } from 'express'
-import { IRequest } from '../types'
+import { IRequest, IUser } from '../types'
 import User from '../models/User'
 import generateToken from '../utils/generateJWT'
 
@@ -10,7 +10,7 @@ import generateToken from '../utils/generateJWT'
 const authenticateUser = asyncHandler(async (req: IRequest, res: Response) => {
   const { username, password } = req.body
 
-  const user = await User.findOne({
+  const user: IUser | null = await User.findOne({
     username,
   })
 
@@ -36,11 +36,11 @@ const authenticateUser = asyncHandler(async (req: IRequest, res: Response) => {
 const registerUser = asyncHandler(async (req: IRequest, res: Response) => {
   const { firstName, lastName, email, username, password } = req.body
 
-  const usernameExists = await User.findOne({
+  const usernameExists: IUser | null = await User.findOne({
     username,
   })
 
-  const emailExists = await User.findOne({ email })
+  const emailExists: IUser | null = await User.findOne({ email })
 
   if (usernameExists) {
     res.status(400)
@@ -50,7 +50,7 @@ const registerUser = asyncHandler(async (req: IRequest, res: Response) => {
     throw new Error('Email is already in use')
   }
 
-  const user = await User.create({
+  const user: IUser = await User.create({
     firstName,
     lastName,
     email,
@@ -78,7 +78,7 @@ const registerUser = asyncHandler(async (req: IRequest, res: Response) => {
 // @route   GET /api/users/profile
 // @access  Private
 const getUserProfile = asyncHandler(async (req: IRequest, res: Response) => {
-  const user = await User.findById(req.user._id)
+  const user: IUser | null = await User.findById(req.user._id)
 
   if (user) {
     res.json({
@@ -95,4 +95,39 @@ const getUserProfile = asyncHandler(async (req: IRequest, res: Response) => {
   }
 })
 
-export { authenticateUser, registerUser, getUserProfile }
+// @desc    Update user profile
+// @route   PUT /api/users/profile
+// @access  Private
+const updateUserProfile = asyncHandler(async (req: IRequest, res: Response) => {
+  const user: IUser | null = await User.findById(req.user._id)
+
+  if (user) {
+    user.firstName = req.body.firstName ?? user.firstName
+    user.lastName = req.body.lastName ?? user.lastName
+    user.email = req.body.email ?? user.email
+    user.username = req.body.username ?? user.username
+
+    if (req.body.password) {
+      user.password = req.body.password
+    }
+
+    user.isAdministrator = req.body.username ?? user.isAdministrator
+
+    const updatedUser = await user.save()
+
+    res.json({
+      _id: updatedUser._id,
+      firstName: updatedUser.firstName,
+      lastName: updatedUser.lastName,
+      email: updatedUser.email,
+      username: updatedUser.username,
+      isAdministrator: updatedUser.isAdministrator,
+      token: generateToken(user._id.toString()),
+    })
+  } else {
+    res.status(404)
+    throw new Error('User not found')
+  }
+})
+
+export { authenticateUser, registerUser, getUserProfile, updateUserProfile }

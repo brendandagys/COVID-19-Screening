@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose'
+import { Model, Schema, model } from 'mongoose'
 import bcrypt from 'bcryptjs'
 import { IUser } from '../types'
 
@@ -51,6 +51,6 @@ userSchema.pre('save', async function (next) {
   this.password = await bcrypt.hash(this.password, salt)
 })
 
-const User = model('User', userSchema)
+const User: Model<IUser> = model('User', userSchema)
 
 export default User
