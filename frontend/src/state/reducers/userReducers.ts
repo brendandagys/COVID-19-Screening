@@ -11,16 +11,22 @@ export type UserInfo = {
   token: string
 } | null
 
-export type UserLoginState = {
+export type LoginState = {
   loading?: boolean
   error?: string
   userInfo: UserInfo
 }
 
-const authenticateReducer = (
-  state: UserLoginState = { userInfo: null },
+export type RegisterState = {
+  loading?: boolean
+  error?: string
+  userInfo: UserInfo
+}
+
+export const authenticateReducer = (
+  state: LoginState = { userInfo: null },
   action: Action
-): UserLoginState => {
+): LoginState => {
   switch (action.type) {
     case ActionType.LOGIN_REQUEST:
       return { loading: true, userInfo: null }
@@ -35,4 +41,18 @@ const authenticateReducer = (
   }
 }
 
-export default authenticateReducer
+export const registerReducer = (
+  state = { userInfo: null },
+  action: Action
+): RegisterState => {
+  switch (action.type) {
+    case ActionType.REGISTER_REQUEST:
+      return { loading: true, userInfo: null }
+    case ActionType.REGISTER_SUCCESS:
+      return { userInfo: action.payload.userInfo }
+    case ActionType.REGISTER_FAIL:
+      return { error: action.payload.error, userInfo: null }
+    default:
+      return state
+  }
+}

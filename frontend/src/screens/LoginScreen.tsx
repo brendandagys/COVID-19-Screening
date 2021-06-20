@@ -19,10 +19,12 @@ const LoginScreen = ({
 
   const { login } = useActions()
 
-  const authenticate = useTypedSelector((state) => state.authenticate)
+  const authenticate = useTypedSelector((state) => {
+    return state.authenticate
+  })
+
   const { loading, error, userInfo } = authenticate
 
-  //
   const redirect = location.search ? location.search.split('=')[1] : '/'
 
   useEffect(() => {
@@ -50,7 +52,7 @@ const LoginScreen = ({
             placeholder='Username...'
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-          ></Form.Control>{' '}
+          ></Form.Control>
         </Form.Group>
         <br />
         <Form.Group controlId='password'>
@@ -60,7 +62,7 @@ const LoginScreen = ({
             placeholder='Password...'
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-          ></Form.Control>{' '}
+          ></Form.Control>
         </Form.Group>
         <br />
         <Button type='submit' variant='primary'>

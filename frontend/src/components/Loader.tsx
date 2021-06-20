@@ -11,9 +11,7 @@ const Loader = (): JSX.Element => {
         margin: 'auto',
         display: 'block',
       }}
-    >
-      <span className='sr-only'>Loading...</span>
-    </Spinner>
+    ></Spinner>
   )
 }
 
