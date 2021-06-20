@@ -26,7 +26,7 @@ const LoginScreen = ({
   const { loading, error, userInfo } = authenticate
 
   const redirect = location.search ? location.search.split('=')[1] : '/'
-
+  console.log('redirect', redirect)
   useEffect(() => {
     if (userInfo) {
       history.push(redirect)
@@ -48,6 +48,7 @@ const LoginScreen = ({
         <Form.Group controlId='username'>
           <Form.Label>Username</Form.Label>
           <Form.Control
+            autoComplete='true'
             type='text'
             placeholder='Username...'
             value={username}
@@ -58,6 +59,7 @@ const LoginScreen = ({
         <Form.Group controlId='password'>
           <Form.Label>Password</Form.Label>
           <Form.Control
+            autoComplete='true'
             type='password'
             placeholder='Password...'
             value={password}

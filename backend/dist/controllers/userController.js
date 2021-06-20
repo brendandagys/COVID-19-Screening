@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUserProfile = exports.registerUser = exports.authenticateUser = void 0;
+exports.updateUserProfile = exports.getUserProfile = exports.registerUser = exports.authenticateUser = void 0;
 var express_async_handler_1 = __importDefault(require("express-async-handler"));
 var User_1 = __importDefault(require("../models/User"));
 var generateJWT_1 = __importDefault(require("../utils/generateJWT"));
@@ -167,4 +167,45 @@ var getUserProfile = express_async_handler_1.default(function (req, res) { retur
     });
 }); });
 exports.getUserProfile = getUserProfile;
+// @desc    Update user profile
+// @route   PUT /api/users/profile
+// @access  Private
+var updateUserProfile = express_async_handler_1.default(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var user, updatedUser;
+    var _a, _b, _c, _d, _e;
+    return __generator(this, function (_f) {
+        switch (_f.label) {
+            case 0: return [4 /*yield*/, User_1.default.findById(req.user._id)];
+            case 1:
+                user = _f.sent();
+                if (!user) return [3 /*break*/, 3];
+                user.firstName = (_a = req.body.firstName) !== null && _a !== void 0 ? _a : user.firstName;
+                user.lastName = (_b = req.body.lastName) !== null && _b !== void 0 ? _b : user.lastName;
+                user.email = (_c = req.body.email) !== null && _c !== void 0 ? _c : user.email;
+                user.username = (_d = req.body.username) !== null && _d !== void 0 ? _d : user.username;
+                if (req.body.password) {
+                    user.password = req.body.password;
+                }
+                user.isAdministrator = (_e = req.body.isAdministrator) !== null && _e !== void 0 ? _e : user.isAdministrator;
+                return [4 /*yield*/, user.save()];
+            case 2:
+                updatedUser = _f.sent();
+                res.json({
+                    _id: updatedUser._id,
+                    firstName: updatedUser.firstName,
+                    lastName: updatedUser.lastName,
+                    email: updatedUser.email,
+                    username: updatedUser.username,
+                    isAdministrator: updatedUser.isAdministrator,
+                    token: generateJWT_1.default(user._id.toString()),
+                });
+                return [3 /*break*/, 4];
+            case 3:
+                res.status(404);
+                throw new Error('User not found');
+            case 4: return [2 /*return*/];
+        }
+    });
+}); });
+exports.updateUserProfile = updateUserProfile;
 //# sourceMappingURL=userController.js.map

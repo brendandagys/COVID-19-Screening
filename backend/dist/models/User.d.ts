@@ -1,3 +1,4 @@
-/// <reference types="mongoose" />
-declare const User: import("mongoose").Model<any, any, any>;
+import { Model } from 'mongoose';
+import { IUser } from '../types';
+declare const User: Model<IUser>;
 export default User;

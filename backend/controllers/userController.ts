@@ -111,7 +111,7 @@ const updateUserProfile = asyncHandler(async (req: IRequest, res: Response) => {
       user.password = req.body.password
     }
 
-    user.isAdministrator = req.body.username ?? user.isAdministrator
+    user.isAdministrator = req.body.isAdministrator ?? user.isAdministrator
 
     const updatedUser = await user.save()
 

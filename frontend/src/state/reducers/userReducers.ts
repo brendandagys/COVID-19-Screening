@@ -9,18 +9,40 @@ export type UserInfo = {
   username: string
   isAdministrator: boolean
   token: string
-} | null
+}
+
+export type UserInfoWithPassword = {
+  id: string
+  firstName: string
+  lastName: string
+  email: string
+  username: string
+  password: string
+  isAdministrator: boolean
+}
 
 export type LoginState = {
   loading?: boolean
   error?: string
-  userInfo: UserInfo
+  userInfo: UserInfo | null
 }
 
 export type RegisterState = {
   loading?: boolean
   error?: string
-  userInfo: UserInfo
+  userInfo: UserInfo | null
+}
+
+export type UserDetailsState = {
+  loading?: boolean
+  error?: string
+  userInfo: UserInfo | null
+}
+
+export type UserUpdateState = {
+  loading?: boolean
+  error?: string
+  userInfo: UserInfo | null
 }
 
 export const authenticateReducer = (
@@ -42,7 +64,7 @@ export const authenticateReducer = (
 }
 
 export const registerReducer = (
-  state = { userInfo: null },
+  state: RegisterState = { userInfo: null },
   action: Action
 ): RegisterState => {
   switch (action.type) {
@@ -52,6 +74,40 @@ export const registerReducer = (
       return { userInfo: action.payload.userInfo }
     case ActionType.REGISTER_FAIL:
       return { error: action.payload.error, userInfo: null }
+    default:
+      return state
+  }
+}
+
+export const userDetailsReducer = (
+  state: UserDetailsState = { userInfo: null },
+  action: Action
+): UserDetailsState => {
+  switch (action.type) {
+    case ActionType.USER_DETAILS_REQUEST:
+      return { ...state, loading: true }
+    case ActionType.USER_DETAILS_SUCCESS:
+      return { userInfo: action.payload.userInfo }
+    case ActionType.USER_DETAILS_FAIL:
+      return { error: action.payload.error, userInfo: null }
+    default:
+      return state
+  }
+}
+
+export const userUpdateReducer = (
+  state: UserUpdateState = { userInfo: null },
+  action: Action
+): UserUpdateState => {
+  switch (action.type) {
+    case ActionType.USER_UPDATE_REQUEST:
+      return { loading: true, userInfo: null }
+    case ActionType.USER_UPDATE_SUCCESS:
+      return { userInfo: action.payload.userInfo }
+    case ActionType.USER_UPDATE_FAIL:
+      return { error: action.payload.error, userInfo: null }
+    case ActionType.USER_UPDATE_RESET:
+      return { userInfo: null }
     default:
       return state
   }

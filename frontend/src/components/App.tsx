@@ -4,6 +4,7 @@ import Container from 'react-bootstrap/Container'
 import LoginScreen from '../screens/LoginScreen'
 import RegisterScreen from '../screens/RegisterScreen'
 import FormScreen from '../screens/FormScreen'
+import ProfileScreen from '../screens/ProfileScreen'
 import NavBar from './NavBar'
 import { useTypedSelector } from '../hooks/useTypedSelector'
 
@@ -24,7 +25,13 @@ const App = (): JSX.Element => {
         <NavBar />
         <Route path='/login' component={LoginScreen} />
         <Route path='/register' component={RegisterScreen} />
-        {/* <Route path='/profile' component={ProfileScreen} /> */}
+        <Route path='/profile'>
+          {!userInfo ? (
+            <Redirect to='/login?redirect=/profile' />
+          ) : (
+            <ProfileScreen />
+          )}
+        </Route>
         <Route exact path='/'>
           {!userInfo ? <Redirect to='/login' /> : <FormScreen />}
         </Route>

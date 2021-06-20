@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { UserInfoWithPassword } from '../reducers/userReducers'
 import { Dispatch } from 'redux'
 import { ActionType } from '../action-types'
 import {
@@ -8,6 +9,13 @@ import {
   RegisterRequestAction,
   RegisterSuccessAction,
   RegisterFailAction,
+  UserDetailsRequestAction,
+  UserDetailsSuccessAction,
+  UserDetailsFailAction,
+  UserUpdateRequestAction,
+  UserUpdateSuccessAction,
+  UserUpdateFailAction,
+  UserUpdateResetAction,
 } from '../actions'
 
 export const login =
@@ -67,8 +75,9 @@ export const register =
     dispatch: Dispatch<
       | RegisterRequestAction
       | RegisterSuccessAction
-      | LoginSuccessAction
       | RegisterFailAction
+      | LoginSuccessAction
+      | UserUpdateResetAction
     >
   ) => {
     try {
@@ -95,10 +104,103 @@ export const register =
         payload: { userInfo: data },
       })
 
+      dispatch({
+        type: ActionType.USER_UPDATE_RESET,
+      })
+
       localStorage.setItem('userInfo', JSON.stringify(data))
     } catch (e) {
       dispatch({
         type: ActionType.REGISTER_FAIL,
+        payload: {
+          error:
+            e.response && e.response.data.message
+              ? e.response.data.message
+              : e.message,
+        },
+      })
+    }
+  }
+
+export const getUserDetails =
+  (id: string) =>
+  async (
+    dispatch: Dispatch<
+      | UserDetailsRequestAction
+      | UserDetailsSuccessAction
+      | UserDetailsFailAction
+    >,
+    getState: any
+  ) => {
+    try {
+      dispatch({
+        type: ActionType.USER_DETAILS_REQUEST,
+      })
+
+      const {
+        authenticate: { userInfo },
+      } = getState()
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      }
+      const { data } = await axios.get(`/api/users/${id}`, config)
+
+      dispatch({
+        type: ActionType.USER_DETAILS_SUCCESS,
+        payload: { userInfo: data },
+      })
+    } catch (e) {
+      dispatch({
+        type: ActionType.USER_DETAILS_FAIL,
+        payload: {
+          error:
+            e.response && e.response.data.message
+              ? e.response.data.message
+              : e.message,
+        },
+      })
+    }
+  }
+
+export const updateUser =
+  (user: UserInfoWithPassword) =>
+  async (
+    dispatch: Dispatch<
+      | UserUpdateRequestAction
+      | UserUpdateSuccessAction
+      | UserUpdateFailAction
+      | UserUpdateResetAction
+    >,
+    getState: any
+  ) => {
+    try {
+      dispatch({
+        type: ActionType.USER_UPDATE_REQUEST,
+      })
+
+      const {
+        authenticate: { userInfo },
+      } = getState()
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      }
+      const { data } = await axios.put('/api/users/profile', user, config)
+
+      dispatch({
+        type: ActionType.USER_UPDATE_SUCCESS,
+        payload: { userInfo: data },
+      })
+    } catch (e) {
+      dispatch({
+        type: ActionType.USER_UPDATE_FAIL,
         payload: {
           error:
             e.response && e.response.data.message
