@@ -1,4 +1,5 @@
 import { ActionType } from '../action-types'
+import { IQuestion } from '../../../../backend/types'
 
 export interface LoginRequestAction {
   type: ActionType.LOGIN_REQUEST
@@ -94,6 +95,18 @@ export interface UserUpdateResetAction {
   type: ActionType.USER_UPDATE_RESET
 }
 
+export interface QuestionsFetchRequestAction {
+  type: ActionType.QUESTIONS_FETCH_REQUEST
+}
+export interface QuestionsFetchSuccessAction {
+  type: ActionType.QUESTIONS_FETCH_SUCCESS
+  payload: IQuestion[]
+}
+export interface QuestionsFetchFailAction {
+  type: ActionType.QUESTIONS_FETCH_FAIL
+  payload: { error: string }
+}
+
 export type Action =
   | LoginRequestAction
   | LoginSuccessAction
@@ -109,3 +122,6 @@ export type Action =
   | UserUpdateSuccessAction
   | UserUpdateFailAction
   | UserUpdateResetAction
+  | QuestionsFetchRequestAction
+  | QuestionsFetchSuccessAction
+  | QuestionsFetchFailAction
