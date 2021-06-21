@@ -3,6 +3,7 @@ import path from 'path'
 import { notFoundHandler, errorHandler } from './middleware/errorMiddleware'
 
 import userRoutes from './routes/userRoutes'
+import questionRoutes from './routes/questionRoutes'
 
 import dotenv from 'dotenv'
 dotenv.config({ path: __dirname + '/../.env' })
@@ -15,6 +16,7 @@ const app = express()
 app.use(express.json())
 
 app.use('/api/users', userRoutes)
+app.use('/api/questions', questionRoutes)
 
 if (process.env.NODE_ENV === 'production') {
   // Express will serve up production assets like our main.js or main.css file
