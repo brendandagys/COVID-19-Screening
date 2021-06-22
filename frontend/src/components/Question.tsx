@@ -10,19 +10,29 @@ const Question = ({
   questionText,
   index,
   markQuestionAnswered,
+  toggleShowFail,
 }: {
   questionText: string
   index: number
-  markQuestionAnswered: () => void
+  markQuestionAnswered: (operation: 'add' | 'subtract') => void
+  toggleShowFail: () => void
 }) => {
   const [response, setResponse] = useState<Response>(null)
 
   return (
-    <Card className='my-3'>
+    <Card
+      border={
+        response === 'yes' ? 'success' : response === 'no' ? 'danger' : ''
+      }
+      className='my-3'
+    >
       <Card.Header as='h6'>{'Question ' + (index + 1)}</Card.Header>
       <Card.Body>
         {/* <Card.Title>Question</Card.Title> */}
-        <Card.Text>{questionText}</Card.Text>
+        <Card.Text>
+          <small>{questionText}</small>
+        </Card.Text>
+        <hr style={{ color: 'slategray' }} />
         <Row>
           <Col>
             <Button
@@ -30,7 +40,8 @@ const Question = ({
               variant={response === 'yes' ? 'success' : 'secondary'}
               onClick={() => {
                 setResponse('yes')
-                response ?? markQuestionAnswered()
+                toggleShowFail()
+                response !== null && markQuestionAnswered('subtract')
               }}
             >
               Yes
@@ -42,7 +53,7 @@ const Question = ({
               variant={response === 'no' ? 'danger' : 'secondary'}
               onClick={() => {
                 setResponse('no')
-                response ?? markQuestionAnswered()
+                response !== 'no' && markQuestionAnswered('add')
               }}
             >
               No

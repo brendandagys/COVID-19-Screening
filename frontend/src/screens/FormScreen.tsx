@@ -12,6 +12,9 @@ const FormScreen = (): JSX.Element => {
   const [show, setShow] = useState(true)
   const toggleShow = () => setShow((show) => !show)
 
+  const [showFail, setShowFail] = useState(false)
+  const toggleShowFail = () => setShowFail((showFail) => !showFail)
+
   const [allQuestionsAnswered, setAllQuestionsAnswered] = useState(false)
   const [numQuestionsAnswered, setNumQuestionsAnswered] = useState(0)
 
@@ -33,15 +36,16 @@ const FormScreen = (): JSX.Element => {
     }
   }, [numQuestionsAnswered, questions])
 
-  const markQuestionAnswered = () => {
-    setNumQuestionsAnswered((prevCount) => prevCount + 1)
+  const markQuestionAnswered = (operation: 'add' | 'subtract') => {
+    setNumQuestionsAnswered((prevCount) =>
+      operation === 'add' ? prevCount + 1 : prevCount - 1
+    )
   }
 
   return (
     <>
       <Container>
         <h2 className='mb-3'>Screening Questions</h2>
-
         {questions?.map((question, index) => {
           return (
             <Question
@@ -49,11 +53,12 @@ const FormScreen = (): JSX.Element => {
               questionText={question.question}
               index={index}
               markQuestionAnswered={markQuestionAnswered}
+              toggleShowFail={toggleShowFail}
             />
           )
         })}
         {allQuestionsAnswered && (
-          <Button type='submit' variant='primary'>
+          <Button style={{ width: '100%' }} type='submit' variant='primary'>
             Submit
           </Button>
         )}
@@ -84,6 +89,29 @@ const FormScreen = (): JSX.Element => {
             style={{ width: '100%' }}
             variant='success'
             onClick={toggleShow}
+          >
+            Okay
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <Modal show={showFail} onHide={toggleShowFail}>
+        <Modal.Header style={{ backgroundColor: '#F0F0F0' }}>
+          <Modal.Title>
+            <p className='text-danger'>Contact Us</p>
+            <small className='text-muted'>{`${userInfo?.firstName} ${userInfo?.lastName}`}</small>
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <h6 className='text-danger'>
+            If you are experiencing any of the symptoms listed below, please see
+            a member of the screening staff, or contact Occupational Health.
+          </h6>
+        </Modal.Body>
+        <Modal.Footer style={{ backgroundColor: '#F5F5F5' }}>
+          <Button
+            style={{ width: '100%' }}
+            variant='success'
+            onClick={toggleShowFail}
           >
             Okay
           </Button>
