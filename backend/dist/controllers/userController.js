@@ -46,7 +46,7 @@ var generateJWT_1 = __importDefault(require("../utils/generateJWT"));
 // @desc    Authenticate user and get JWT
 // @route   POST /api/users/login
 // @access  Public
-var authenticateUser = express_async_handler_1.default(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+exports.authenticateUser = express_async_handler_1.default(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, username, password, user, _b;
     return __generator(this, function (_c) {
         switch (_c.label) {
@@ -83,11 +83,10 @@ var authenticateUser = express_async_handler_1.default(function (req, res) { ret
         }
     });
 }); });
-exports.authenticateUser = authenticateUser;
 // @desc    Register a new user
 // @route   POST /api/users
 // @access  Public
-var registerUser = express_async_handler_1.default(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+exports.registerUser = express_async_handler_1.default(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, firstName, lastName, email, username, password, usernameExists, emailExists, user;
     return __generator(this, function (_b) {
         switch (_b.label) {
@@ -137,11 +136,10 @@ var registerUser = express_async_handler_1.default(function (req, res) { return 
         }
     });
 }); });
-exports.registerUser = registerUser;
 // @desc    Get user profile
 // @route   GET /api/users/profile
 // @access  Private
-var getUserProfile = express_async_handler_1.default(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+exports.getUserProfile = express_async_handler_1.default(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var user;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -166,11 +164,10 @@ var getUserProfile = express_async_handler_1.default(function (req, res) { retur
         }
     });
 }); });
-exports.getUserProfile = getUserProfile;
 // @desc    Update user profile
 // @route   PUT /api/users/profile
 // @access  Private
-var updateUserProfile = express_async_handler_1.default(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+exports.updateUserProfile = express_async_handler_1.default(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var user, updatedUser;
     var _a, _b, _c, _d, _e;
     return __generator(this, function (_f) {
@@ -207,5 +204,4 @@ var updateUserProfile = express_async_handler_1.default(function (req, res) { re
         }
     });
 }); });
-exports.updateUserProfile = updateUserProfile;
 //# sourceMappingURL=userController.js.map

@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux'
+import { questionsFetchReducer } from './questionReducers'
 import {
   authenticateReducer,
   registerReducer,
@@ -11,6 +12,7 @@ const reducers = combineReducers({
   registration: registerReducer,
   userDetails: userDetailsReducer,
   userUpdate: userUpdateReducer,
+  questionsFetch: questionsFetchReducer,
 })
 
 export default reducers
