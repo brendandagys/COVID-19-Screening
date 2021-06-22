@@ -130,7 +130,7 @@ exports.registerUser = express_async_handler_1.default(function (req, res) { ret
                 }
                 else {
                     res.status(400);
-                    throw new Error('Invalid credentials');
+                    throw new Error('Unable to create profile');
                 }
                 return [2 /*return*/];
         }

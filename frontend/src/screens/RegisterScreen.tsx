@@ -114,7 +114,7 @@ const RegisterScreen = ({
           ></Form.Control>
         </Form.Group>
         <br />
-        <Button type='submit' variant='primary'>
+        <Button style={{ width: '100%' }} type='submit' variant='primary'>
           Submit
         </Button>
       </Form>

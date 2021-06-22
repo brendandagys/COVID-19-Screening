@@ -73,7 +73,7 @@ export const registerUser = asyncHandler(
       })
     } else {
       res.status(400)
-      throw new Error('Invalid credentials')
+      throw new Error('Unable to create profile')
     }
   }
 )

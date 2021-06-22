@@ -25,7 +25,7 @@ const NavBar = () => {
           <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='ml-auto'>
               <LinkContainer to='/'>
-                <Nav.Link>Form</Nav.Link>
+                <Nav.Link>Questions</Nav.Link>
               </LinkContainer>
 
               {userInfo ? (

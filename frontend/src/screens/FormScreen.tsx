@@ -49,7 +49,7 @@ const FormScreen = (): JSX.Element => {
         {questions?.map((question, index) => {
           return (
             <Question
-              key={question._id}
+              key={question.id}
               questionText={question.question}
               index={index}
               markQuestionAnswered={markQuestionAnswered}

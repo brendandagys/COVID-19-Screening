@@ -1,5 +1,5 @@
 import { Request } from 'express'
-import { Document } from 'mongoose'
+import { Document, ObjectId } from 'mongoose'
 import User from './models'
 
 export interface IRequest extends Request {
@@ -7,7 +7,7 @@ export interface IRequest extends Request {
 }
 
 export interface IUser extends Document {
-  _id: string
+  _id: ObjectId
   firstName: string
   lastName: string
   email: string
@@ -18,10 +18,22 @@ export interface IUser extends Document {
 }
 
 export interface IQuestion extends Document {
-  _id: string
+  _id: ObjectId
   question: string
   type: 'yes/no' | 'multiple' | 'slider'
   answerOptions: string[] | null
+}
+
+export interface IQuestionAnswer extends Document {
+  question: ObjectId
+  answer: string
+}
+
+export interface ISubmission extends Document {
+  _id: ObjectId
+  user: ObjectId
+  answers: string[IQuestionAnswer]
+  emailed: boolean
 }
 
 export interface IToken {
