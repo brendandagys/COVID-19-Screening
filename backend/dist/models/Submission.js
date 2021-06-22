@@ -26,6 +26,6 @@ var submissionSchema = new mongoose_1.Schema({
 }, {
     timestamps: true,
 });
-var Submission = mongoose_1.model('Question', submissionSchema);
+var Submission = mongoose_1.model('Submission', submissionSchema);
 exports.default = Submission;
 //# sourceMappingURL=Submission.js.map

@@ -9,7 +9,7 @@ var path_1 = __importDefault(require("path"));
 var errorMiddleware_1 = require("./middleware/errorMiddleware");
 var userRoutes_1 = __importDefault(require("./routes/userRoutes"));
 var questionRoutes_1 = __importDefault(require("./routes/questionRoutes"));
-var answerRoutes_1 = __importDefault(require("./routes/answerRoutes"));
+var submissionRoutes_1 = __importDefault(require("./routes/submissionRoutes"));
 var dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config({ path: __dirname + '/../.env' });
 var database_1 = __importDefault(require("./config/database"));
@@ -18,7 +18,7 @@ var app = express_1.default();
 app.use(express_1.default.json());
 app.use('/api/users', userRoutes_1.default);
 app.use('/api/questions', questionRoutes_1.default);
-app.use('/api/answers', answerRoutes_1.default);
+app.use('/api/answers', submissionRoutes_1.default);
 if (process.env.NODE_ENV === 'production') {
     // Express will serve up production assets like our main.js or main.css file
     app.use(express_1.default.static(path_1.default.join(__dirname, '/frontend/build')));

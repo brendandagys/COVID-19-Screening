@@ -4,7 +4,7 @@ import { notFoundHandler, errorHandler } from './middleware/errorMiddleware'
 
 import userRoutes from './routes/userRoutes'
 import questionRoutes from './routes/questionRoutes'
-import answerRoutes from './routes/answerRoutes'
+import submissionRoutes from './routes/submissionRoutes'
 
 import dotenv from 'dotenv'
 dotenv.config({ path: __dirname + '/../.env' })
@@ -18,7 +18,7 @@ app.use(express.json())
 
 app.use('/api/users', userRoutes)
 app.use('/api/questions', questionRoutes)
-app.use('/api/answers', answerRoutes)
+app.use('/api/submissions', submissionRoutes)
 
 if (process.env.NODE_ENV === 'production') {
   // Express will serve up production assets like our main.js or main.css file

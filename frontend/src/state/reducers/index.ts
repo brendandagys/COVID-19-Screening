@@ -1,6 +1,10 @@
 import { combineReducers } from 'redux'
 import { questionsFetchReducer } from './questionReducers'
 import {
+  submissionFetchReducer,
+  submissionCreateReducer,
+} from './submissionReducers'
+import {
   authenticateReducer,
   registerReducer,
   userDetailsReducer,
@@ -13,6 +17,8 @@ const reducers = combineReducers({
   userDetails: userDetailsReducer,
   userUpdate: userUpdateReducer,
   questionsFetch: questionsFetchReducer,
+  submissionFetch: submissionFetchReducer,
+  submissionCreate: submissionCreateReducer,
 })
 
 export default reducers

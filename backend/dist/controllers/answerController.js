@@ -39,13 +39,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.submitAnswer = exports.getAnswer = void 0;
+exports.submitSubmission = exports.getSubmission = void 0;
 var express_async_handler_1 = __importDefault(require("express-async-handler"));
 var Submission_1 = __importDefault(require("../models/Submission"));
 // @desc    Get today's answer
 // @route   GET /api/answers
 // @access  Private
-exports.getAnswer = express_async_handler_1.default(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+exports.getSubmission = express_async_handler_1.default(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var submission;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -69,18 +69,28 @@ exports.getAnswer = express_async_handler_1.default(function (req, res) { return
 // @desc    Submit answers for today
 // @route   POST /api/answers
 // @access  Private
-exports.submitAnswer = express_async_handler_1.default(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, answers, emailed, submission;
+exports.submitSubmission = express_async_handler_1.default(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, answers, emailed, submissionExists, submission;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _a = req.body, answers = _a.answers, emailed = _a.emailed;
+                return [4 /*yield*/, Submission_1.default.findOne({
+                        user: req.user._id,
+                        createdAt: { $gte: new Date() },
+                    })];
+            case 1:
+                submissionExists = _b.sent();
+                if (submissionExists) {
+                    res.status(400).json(submissionExists);
+                    return [2 /*return*/];
+                }
                 return [4 /*yield*/, Submission_1.default.create({
                         user: req.user._id,
                         answers: answers,
                         emailed: emailed,
                     })];
-            case 1:
+            case 2:
                 submission = _b.sent();
                 if (submission) {
                     res.status(201).json(submission);
