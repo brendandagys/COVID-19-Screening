@@ -19,7 +19,9 @@ const FormScreen = (): JSX.Element => {
   const [numQuestionsAnswered, setNumQuestionsAnswered] = useState(0)
 
   const { userInfo } = useTypedSelector((state) => state.authenticate)
-  const { submission } = useTypedSelector((state) => state.submissionFetch)
+  const { submission, userResetFlag } = useTypedSelector(
+    (state) => state.submissionFetch
+  )
   const { loading, error, questions } = useTypedSelector(
     (state) => state.questionsFetch
   )
@@ -41,8 +43,9 @@ const FormScreen = (): JSX.Element => {
     if (!questions) getQuestions()
   }, [questions, getQuestions])
 
-  const [userResetFlag, setUserResetFlag] = useState(false)
-
+  // useEffect(() => {
+  //   fetchSubmission()
+  // }, [fetchSubmission])
   useEffect(() => {
     if (!userResetFlag) fetchSubmission()
   }, [userResetFlag, fetchSubmission])

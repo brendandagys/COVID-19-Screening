@@ -6,6 +6,7 @@ export type SubmissionFetchState = {
   loading?: boolean
   error?: string
   submission: ISubmission | null
+  userResetFlag?: boolean
 }
 
 export type SubmissionCreateState = {
@@ -20,13 +21,15 @@ export const submissionFetchReducer = (
 ): SubmissionFetchState => {
   switch (action.type) {
     case ActionType.SUBMISSION_FETCH_REQUEST:
-      return { loading: true, submission: null }
+      return { ...state, loading: true, submission: null }
     case ActionType.SUBMISSION_FETCH_SUCCESS:
-      return { submission: action.payload }
+      return { ...state, loading: false, submission: action.payload }
     case ActionType.SUBMISSION_FETCH_FAIL:
       return { error: action.payload.error, submission: null }
     case ActionType.SUBMISSION_FETCH_RESET:
-      return { submission: null }
+      return { ...state, userResetFlag: true }
+    case ActionType.SUBMISSION_FETCH_FLAG_RESET:
+      return { ...state, userResetFlag: false }
     default:
       return state
   }

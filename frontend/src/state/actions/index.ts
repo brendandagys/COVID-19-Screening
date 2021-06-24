@@ -125,6 +125,9 @@ export interface SubmissionFetchFailAction {
 export interface SubmissionFetchResetAction {
   type: ActionType.SUBMISSION_FETCH_RESET
 }
+export interface SubmissionFetchFlagResetAction {
+  type: ActionType.SUBMISSION_FETCH_FLAG_RESET
+}
 
 export interface SubmissionCreateRequestAction {
   type: ActionType.SUBMISSION_CREATE_REQUEST
@@ -160,6 +163,7 @@ export type Action =
   | SubmissionFetchSuccessAction
   | SubmissionFetchFailAction
   | SubmissionFetchResetAction
+  | SubmissionFetchFlagResetAction
   | SubmissionCreateRequestAction
   | SubmissionCreateSuccessAction
   | SubmissionCreateFailAction

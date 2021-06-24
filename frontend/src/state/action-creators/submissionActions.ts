@@ -9,6 +9,8 @@ import {
   SubmissionCreateRequestAction,
   SubmissionCreateSuccessAction,
   SubmissionCreateFailAction,
+  SubmissionFetchResetAction,
+  SubmissionFetchFlagResetAction,
 } from '../actions'
 
 export const fetchSubmission =
@@ -67,40 +69,52 @@ export const createSubmission =
       | SubmissionCreateSuccessAction
       | SubmissionCreateFailAction
       | SubmissionFetchSuccessAction
+      | SubmissionFetchResetAction
+      | SubmissionFetchFlagResetAction
     >,
     getState: any
   ) => {
     try {
-      dispatch({
-        type: ActionType.SUBMISSION_CREATE_REQUEST,
-      })
-
       const {
-        authenticate: { userInfo },
+        submissionFetch: { userResetFlag },
       } = getState()
 
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${userInfo.token}`,
-        },
+      if (userResetFlag) {
+        dispatch({
+          type: ActionType.SUBMISSION_FETCH_FLAG_RESET,
+        })
+      } else {
+        dispatch({
+          type: ActionType.SUBMISSION_CREATE_REQUEST,
+        })
+
+        const {
+          authenticate: { userInfo },
+        } = getState()
+
+        const config = {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${userInfo.token}`,
+          },
+        }
+
+        const { data } = await axios.post(
+          '/api/submissions',
+          { answers, emailed },
+          config
+        )
+
+        dispatch({
+          type: ActionType.SUBMISSION_CREATE_SUCCESS,
+          payload: data,
+        })
+
+        dispatch({
+          type: ActionType.SUBMISSION_FETCH_SUCCESS,
+          payload: data,
+        })
       }
-
-      const { data } = await axios.post(
-        '/api/submissions',
-        { answers, emailed },
-        config
-      )
-
-      dispatch({
-        type: ActionType.SUBMISSION_CREATE_SUCCESS,
-        payload: data,
-      })
-
-      dispatch({
-        type: ActionType.SUBMISSION_FETCH_SUCCESS,
-        payload: data,
-      })
     } catch (e) {
       dispatch({
         type: ActionType.SUBMISSION_CREATE_FAIL,

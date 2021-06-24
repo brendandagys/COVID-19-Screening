@@ -11,7 +11,9 @@ import CompletedScreen from '../screens/CompletedScreen'
 
 const App = (): JSX.Element => {
   const { userInfo } = useTypedSelector((state) => state.authenticate)
-  const { submission } = useTypedSelector((state) => state.submissionFetch)
+  const { submission, userResetFlag } = useTypedSelector(
+    (state) => state.submissionFetch
+  )
 
   const history = useHistory()
 
@@ -41,6 +43,8 @@ const App = (): JSX.Element => {
           {!userInfo ? (
             <Redirect to='/login?redirect=/completed' />
           ) : !submission ? (
+            <Redirect to='/' />
+          ) : userResetFlag ? (
             <Redirect to='/' />
           ) : (
             <CompletedScreen />
