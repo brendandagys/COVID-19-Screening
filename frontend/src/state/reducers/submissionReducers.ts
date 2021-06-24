@@ -1,17 +1,17 @@
 import { ActionType } from '../action-types'
 import { Action } from '../actions'
-import { IQuestionAnswer } from '../../../../backend/types'
+import { ISubmission } from '../../../../backend/types'
 
 export type SubmissionFetchState = {
   loading?: boolean
   error?: string
-  submission: IQuestionAnswer | null
+  submission: ISubmission | null
 }
 
 export type SubmissionCreateState = {
   loading?: boolean
   error?: string
-  submission: IQuestionAnswer | null
+  submission: ISubmission | null
 }
 
 export const submissionFetchReducer = (
@@ -25,6 +25,8 @@ export const submissionFetchReducer = (
       return { submission: action.payload }
     case ActionType.SUBMISSION_FETCH_FAIL:
       return { error: action.payload.error, submission: null }
+    case ActionType.SUBMISSION_FETCH_RESET:
+      return { submission: null }
     default:
       return state
   }

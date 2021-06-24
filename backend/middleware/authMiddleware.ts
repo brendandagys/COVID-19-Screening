@@ -8,10 +8,7 @@ export const protect = expressAsyncHandler(
   async (req: IRequest, res: Response, next: NextFunction) => {
     let token
 
-    if (
-      req.headers.authorization &&
-      req.headers.authorization.startsWith('Bearer')
-    ) {
+    if (req.headers.authorization?.startsWith('Bearer')) {
       try {
         token = req.headers.authorization.split(' ')[1]
         const decoded = jwt.verify(
@@ -19,6 +16,7 @@ export const protect = expressAsyncHandler(
           process.env.JWT_SECRET as string
         ) as IToken
 
+        // Attach user details object to the request object for use
         req.user = await User.findById(decoded.id).select('-password')
 
         next()

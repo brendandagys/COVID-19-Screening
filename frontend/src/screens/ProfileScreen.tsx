@@ -130,7 +130,7 @@ const ProfileScreen = (): JSX.Element => {
           ></Form.Control>
         </Form.Group>
         <br />
-        <Form.Group controlId='administrator'>
+        {/* <Form.Group controlId='administrator'>
           <Form.Check
             checked={isAdministrator}
             disabled={!userInfo?.isAdministrator ?? true}
@@ -139,7 +139,7 @@ const ProfileScreen = (): JSX.Element => {
             onChange={() => setIsAdministrator((prev) => !prev)}
           />
         </Form.Group>
-        <br />
+        <br /> */}
 
         <Button type='submit' variant='primary'>
           Update

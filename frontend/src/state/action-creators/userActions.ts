@@ -170,6 +170,7 @@ export const updateUser =
   (user: UserInfoWithPassword) =>
   async (
     dispatch: Dispatch<
+      | UserDetailsSuccessAction
       | UserUpdateRequestAction
       | UserUpdateSuccessAction
       | UserUpdateFailAction
@@ -196,6 +197,11 @@ export const updateUser =
 
       dispatch({
         type: ActionType.USER_UPDATE_SUCCESS,
+        payload: { userInfo: data },
+      })
+
+      dispatch({
+        type: ActionType.USER_DETAILS_SUCCESS,
         payload: { userInfo: data },
       })
     } catch (e) {

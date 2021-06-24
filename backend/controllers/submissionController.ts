@@ -10,8 +10,11 @@ export const getSubmission = asyncHandler(
   async (req: IRequest, res: Response) => {
     const submission = await Submission.findOne({
       user: req.user._id,
-      updatedAt: { $gte: new Date() },
+      updatedAt: { $gte: new Date().setHours(0, 0, 0, 0) },
     })
+
+    // console.log(new Date().setHours(0, 0, 0, 0))
+    // console.log(submission?.updatedAt)
 
     if (submission) {
       res.json(submission)

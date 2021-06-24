@@ -39,42 +39,73 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.protect = void 0;
-var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-var User_1 = __importDefault(require("../models/User"));
+exports.submitSubmission = exports.getSubmission = void 0;
 var express_async_handler_1 = __importDefault(require("express-async-handler"));
-exports.protect = express_async_handler_1.default(function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var token, decoded, _a, e_1;
-    var _b;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
-            case 0:
-                if (!((_b = req.headers.authorization) === null || _b === void 0 ? void 0 : _b.startsWith('Bearer'))) return [3 /*break*/, 4];
-                _c.label = 1;
+var Submission_1 = __importDefault(require("../models/Submission"));
+// @desc    Get today's answer
+// @route   GET /api/answers
+// @access  Private
+exports.getSubmission = express_async_handler_1.default(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var submission;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, Submission_1.default.findOne({
+                    user: req.user._id,
+                    updatedAt: { $gte: new Date().setHours(0, 0, 0, 0) },
+                })
+                // console.log(new Date().setHours(0, 0, 0, 0))
+                // console.log(submission?.updatedAt)
+            ];
             case 1:
-                _c.trys.push([1, 3, , 4]);
-                token = req.headers.authorization.split(' ')[1];
-                decoded = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
-                // Attach user details object to the request object for use
-                _a = req;
-                return [4 /*yield*/, User_1.default.findById(decoded.id).select('-password')];
-            case 2:
-                // Attach user details object to the request object for use
-                _a.user = _c.sent();
-                next();
-                return [3 /*break*/, 4];
-            case 3:
-                e_1 = _c.sent();
-                console.error(e_1);
-                res.status(401);
-                throw new Error('Not authorized, invalid token');
-            case 4:
-                if (!token) {
-                    res.status(401);
-                    throw new Error('Not authorized, no token');
+                submission = _a.sent();
+                // console.log(new Date().setHours(0, 0, 0, 0))
+                // console.log(submission?.updatedAt)
+                if (submission) {
+                    res.json(submission);
+                }
+                else {
+                    res.status(404);
+                    throw new Error('You have not completed the screening today');
                 }
                 return [2 /*return*/];
         }
     });
 }); });
-//# sourceMappingURL=authMiddleware.js.map
+// @desc    Submit answers for today
+// @route   POST /api/answers
+// @access  Private
+exports.submitSubmission = express_async_handler_1.default(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, answers, emailed, submissionExists, submission;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _a = req.body, answers = _a.answers, emailed = _a.emailed;
+                return [4 /*yield*/, Submission_1.default.findOne({
+                        user: req.user._id,
+                        createdAt: { $gte: new Date() },
+                    })];
+            case 1:
+                submissionExists = _b.sent();
+                if (submissionExists) {
+                    res.status(400).json(submissionExists);
+                    return [2 /*return*/];
+                }
+                return [4 /*yield*/, Submission_1.default.create({
+                        user: req.user._id,
+                        answers: answers,
+                        emailed: emailed,
+                    })];
+            case 2:
+                submission = _b.sent();
+                if (submission) {
+                    res.status(201).json(submission);
+                }
+                else {
+                    res.status(400);
+                    throw new Error('Unable to submit');
+                }
+                return [2 /*return*/];
+        }
+    });
+}); });
+//# sourceMappingURL=submissionController.js.map

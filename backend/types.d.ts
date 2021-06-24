@@ -29,10 +29,15 @@ export interface IQuestionAnswer extends Document {
   answer: string
 }
 
+export interface QuestionAnswer {
+  question: ObjectId
+  answer: string
+}
+
 export interface ISubmission extends Document {
   _id: ObjectId
   user: ObjectId
-  answers: string[IQuestionAnswer]
+  answers: IQuestionAnswer[]
   emailed: boolean
 }
 

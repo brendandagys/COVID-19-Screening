@@ -8,7 +8,7 @@ var notFoundHandler = function (req, res, next) {
 };
 exports.notFoundHandler = notFoundHandler;
 var errorHandler = function (err, req, res, next) {
-    console.log(err);
+    console.log(err); // BACKEND ERROR LOG
     var statusCode = res.statusCode === 200 ? 500 : res.statusCode;
     res.status(statusCode);
     res.json({

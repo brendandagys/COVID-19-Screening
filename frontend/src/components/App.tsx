@@ -7,9 +7,11 @@ import FormScreen from '../screens/FormScreen'
 import ProfileScreen from '../screens/ProfileScreen'
 import NavBar from './NavBar'
 import { useTypedSelector } from '../hooks/useTypedSelector'
+import CompletedScreen from '../screens/CompletedScreen'
 
 const App = (): JSX.Element => {
   const { userInfo } = useTypedSelector((state) => state.authenticate)
+  const { submission } = useTypedSelector((state) => state.submissionFetch)
 
   const history = useHistory()
 
@@ -17,7 +19,10 @@ const App = (): JSX.Element => {
     if (!userInfo) {
       history.push('/login')
     }
-  }, [history, userInfo])
+    if (submission) {
+      history.push('/completed')
+    }
+  }, [history, submission, userInfo])
 
   return (
     <main className='py-3'>
@@ -30,6 +35,15 @@ const App = (): JSX.Element => {
             <Redirect to='/login?redirect=/profile' />
           ) : (
             <ProfileScreen />
+          )}
+        </Route>
+        <Route path='/completed'>
+          {!userInfo ? (
+            <Redirect to='/login?redirect=/completed' />
+          ) : !submission ? (
+            <Redirect to='/' />
+          ) : (
+            <CompletedScreen />
           )}
         </Route>
         <Route exact path='/'>

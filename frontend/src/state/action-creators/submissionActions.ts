@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { Dispatch } from 'redux'
-import { IQuestionAnswer } from '../../../../backend/types'
+import { QuestionAnswer } from '../../../../backend/types'
 import { ActionType } from '../action-types'
 import {
   SubmissionFetchRequestAction,
@@ -31,8 +31,10 @@ export const fetchSubmission =
       } = getState()
 
       const config = {
-        headers: { 'Content-Type': 'application/json' },
-        Authorization: `Bearer ${userInfo.token}`,
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
       }
       const { data } = await axios.get('/api/submissions', config)
 
@@ -53,23 +55,37 @@ export const fetchSubmission =
     }
   }
 
+export const clearSubmission = () => {
+  return { type: ActionType.SUBMISSION_FETCH_RESET }
+}
+
 export const createSubmission =
-  (answers: IQuestionAnswer[], emailed: boolean) =>
+  (answers: QuestionAnswer[] | undefined, emailed: boolean) =>
   async (
     dispatch: Dispatch<
       | SubmissionCreateRequestAction
       | SubmissionCreateSuccessAction
       | SubmissionCreateFailAction
-    >
+      | SubmissionFetchSuccessAction
+    >,
+    getState: any
   ) => {
     try {
       dispatch({
         type: ActionType.SUBMISSION_CREATE_REQUEST,
       })
 
+      const {
+        authenticate: { userInfo },
+      } = getState()
+
       const config = {
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
       }
+
       const { data } = await axios.post(
         '/api/submissions',
         { answers, emailed },
@@ -78,6 +94,11 @@ export const createSubmission =
 
       dispatch({
         type: ActionType.SUBMISSION_CREATE_SUCCESS,
+        payload: data,
+      })
+
+      dispatch({
+        type: ActionType.SUBMISSION_FETCH_SUCCESS,
         payload: data,
       })
     } catch (e) {
