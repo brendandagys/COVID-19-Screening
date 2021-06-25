@@ -23,7 +23,12 @@ export const submissionFetchReducer = (
     case ActionType.SUBMISSION_FETCH_REQUEST:
       return { ...state, loading: true, submission: null }
     case ActionType.SUBMISSION_FETCH_SUCCESS:
-      return { ...state, loading: false, submission: action.payload }
+      return {
+        ...state,
+        error: undefined,
+        loading: false,
+        submission: action.payload,
+      }
     case ActionType.SUBMISSION_FETCH_FAIL:
       return { error: action.payload.error, submission: null }
     case ActionType.SUBMISSION_FETCH_RESET:

@@ -18,7 +18,7 @@ const CompletedScreen = (): JSX.Element => {
 
   switch (new Date().getDay()) {
     case 0:
-      color = '2E5090'
+      color = '#2E5090'
       break
     case 1:
       color = '#41924B'
@@ -27,18 +27,18 @@ const CompletedScreen = (): JSX.Element => {
       color = '#FEF250'
       break
     case 3:
-      color = 'FFD1DC'
+      color = '#FFD1DC'
       break
     case 4:
-      color = '2E5090'
+      color = '#2E5090'
       break
     case 5:
-      color = 'FFB347'
+      color = '#FFB347'
       break
     case 6:
-      color = '2E5090'
+      color = '#2E5090'
   }
-
+  console.log(color)
   return (
     <Container
       fluid
