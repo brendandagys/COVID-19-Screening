@@ -2,9 +2,10 @@ import asyncHandler from 'express-async-handler'
 import { Response } from 'express'
 import { IRequest, ISubmission } from '../types'
 import Submission from '../models/Submission'
+import { sendEmail } from '../utils/sendEmail'
 
 // @desc    Get today's answer
-// @route   GET /api/answers
+// @route   GET /api/submissions
 // @access  Private
 export const getSubmission = asyncHandler(
   async (req: IRequest, res: Response) => {
@@ -26,7 +27,7 @@ export const getSubmission = asyncHandler(
 )
 
 // @desc    Submit answers for today
-// @route   POST /api/answers
+// @route   POST /api/submissions
 // @access  Private
 export const submitSubmission = asyncHandler(
   async (req: IRequest, res: Response) => {
@@ -54,5 +55,46 @@ export const submitSubmission = asyncHandler(
       res.status(400)
       throw new Error('Unable to submit')
     }
+  }
+)
+
+// @desc    Check for confirmation email
+// @route   GET /api/submissions/email
+// @access  Private
+export const checkForConfirmationEmail = asyncHandler(
+  async (req: IRequest, res: Response) => {
+    const submission = await Submission.findOne({
+      user: req.user._id,
+      updatedAt: { $gte: new Date().setHours(0, 0, 0, 0) },
+    })
+
+    if (submission?.emailed) {
+      res.json(true)
+    } else {
+      res.status(404)
+      throw new Error('You have not completed the screening today')
+    }
+  }
+)
+
+// @desc    Send confirmation email
+// @route   POST /api/submissions/email
+// @access  Private
+export const sendConfirmationEmail = asyncHandler(
+  async (req: IRequest, res: Response) => {
+    const { to, color } = req.body
+
+    const submission = await Submission.findOne({
+      user: req.user._id,
+      updatedAt: { $gte: new Date().setHours(0, 0, 0, 0) },
+    })
+
+    if (submission) {
+      await sendEmail(to, color)
+      submission.emailed = true
+      await submission.save()
+    }
+
+    res.status(201)
   }
 )
