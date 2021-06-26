@@ -1,1 +1,0 @@
-{"version":3,"file":"Message.js","sourceRoot":"","sources":["../../../../frontend/src/components/Message.tsx"],"names":[],"mappings":";;;;;AAAA,gEAAyC;AAOzC,IAAM,OAAO,GAAG,UAAC,EAAmC;QAAjC,OAAO,aAAA,EAAE,QAAQ,cAAA;IAClC,OAAO,CAAC,eAAK,CAAC,OAAO,CAAC,CAAC,OAAO,CAAC,CAAC,CAAC,QAAQ,CAAC,EAAE,eAAK,CAAC,CAAA;AACpD,CAAC,CAAA;AAED,kBAAe,OAAO,CAAA"}

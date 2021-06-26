@@ -23,11 +23,13 @@ app.use('/api/submissions', submissionRoutes)
 
 if (process.env.NODE_ENV === 'production') {
   // Express will serve up production assets like our main.js or main.css file
-  app.use(express.static(path.join(__dirname, '/frontend/build')))
+  app.use(express.static(path.join(__dirname, '/../frontend/build')))
 
   // Express will serve up the index.html file if it doesn't recognize the route
   app.get('*', (req, res) => {
-    res.sendFile(path.resolve('frontend', 'build', 'index.html'))
+    res.sendFile(
+      path.resolve(__dirname, '/../', 'frontend', 'build', 'index.html')
+    )
   })
 } else {
   app.get('/', (req, res) => {
