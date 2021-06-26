@@ -7,6 +7,7 @@ import Modal from 'react-bootstrap/Modal'
 // import Message from '../components/Message'
 // import Loader from '../components/Loader'
 import { useTypedSelector } from '../hooks/useTypedSelector'
+import { animateScroll } from 'react-scroll'
 
 const FormScreen = (): JSX.Element => {
   const [show, setShow] = useState(false)
@@ -55,6 +56,10 @@ const FormScreen = (): JSX.Element => {
     }
   }, [numQuestionsAnswered, questions])
 
+  useEffect(() => {
+    if (allQuestionsAnswered) animateScroll.scrollToBottom()
+  }, [allQuestionsAnswered])
+
   const markQuestionAnswered = (operation: 'add' | 'subtract') => {
     setNumQuestionsAnswered((prevCount) =>
       operation === 'add' ? prevCount + 1 : prevCount - 1
@@ -63,7 +68,7 @@ const FormScreen = (): JSX.Element => {
 
   return (
     <>
-      <Container className='pb-5 text-center' style={{ maxWidth: '600px' }}>
+      <Container className='pb-3 text-center' style={{ maxWidth: '600px' }}>
         <h2 className='mb-3'>Screening Questions</h2>
         {questions?.map((question, index) => {
           return (
@@ -80,7 +85,7 @@ const FormScreen = (): JSX.Element => {
           <Button
             size='lg'
             className='mt-3'
-            style={{ width: '100%', height: '10vh', fontSize: '3rem' }}
+            style={{ width: '100%', fontSize: '3rem' }}
             type='submit'
             variant='primary'
             onClick={() => createSubmission(submitAnswers, false)}

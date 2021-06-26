@@ -137,11 +137,11 @@ exports.checkForConfirmationEmail = express_async_handler_1.default(function (re
 // @route   POST /api/submissions/email
 // @access  Private
 exports.sendConfirmationEmail = express_async_handler_1.default(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, to, color, submission;
+    var _a, to, color, fontColor, submission;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                _a = req.body, to = _a.to, color = _a.color;
+                _a = req.body, to = _a.to, color = _a.color, fontColor = _a.fontColor;
                 return [4 /*yield*/, Submission_1.default.findOne({
                         user: req.user._id,
                         updatedAt: { $gte: new Date().setHours(0, 0, 0, 0) },
@@ -149,7 +149,7 @@ exports.sendConfirmationEmail = express_async_handler_1.default(function (req, r
             case 1:
                 submission = _b.sent();
                 if (!submission) return [3 /*break*/, 4];
-                return [4 /*yield*/, sendEmail_1.sendEmail(to, color)];
+                return [4 /*yield*/, sendEmail_1.sendEmail(to, color, fontColor)];
             case 2:
                 _b.sent();
                 submission.emailed = true;
