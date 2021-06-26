@@ -3,6 +3,8 @@ import { questionsFetchReducer } from './questionReducers'
 import {
   submissionFetchReducer,
   submissionCreateReducer,
+  emailFetchReducer,
+  emailCreateReducer,
 } from './submissionReducers'
 import {
   authenticateReducer,
@@ -19,6 +21,8 @@ const reducers = combineReducers({
   questionsFetch: questionsFetchReducer,
   submissionFetch: submissionFetchReducer,
   submissionCreate: submissionCreateReducer,
+  emailFetch: emailFetchReducer,
+  emailCreate: emailCreateReducer,
 })
 
 export default reducers

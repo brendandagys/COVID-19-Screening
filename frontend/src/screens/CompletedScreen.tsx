@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -6,15 +7,21 @@ import Button from 'react-bootstrap/Button'
 import { useActions } from '../hooks/useActions'
 
 const CompletedScreen = (): JSX.Element => {
-  const authenticate = useTypedSelector((state) => {
-    return state.authenticate
-  })
+  const { loading, error, userInfo } = useTypedSelector(
+    (state) => state.authenticate
+  )
 
-  const { loading, error, userInfo } = authenticate
+  const { loading: loadingEmail, error: errorEmail } = useTypedSelector(
+    (state) => state.emailFetch
+  )
 
-  const { clearSubmission } = useActions()
+  const { clearSubmission, createEmail, fetchEmail } = useActions()
 
-  let color
+  useEffect(() => {
+    fetchEmail()
+  }, [fetchEmail])
+
+  let color: string = '#2E5090'
 
   switch (new Date().getDay()) {
     case 0:
@@ -38,7 +45,7 @@ const CompletedScreen = (): JSX.Element => {
     case 6:
       color = '#2E5090'
   }
-  console.log(color)
+
   return (
     <Container
       fluid
@@ -47,7 +54,15 @@ const CompletedScreen = (): JSX.Element => {
     >
       <Row className='my-3 py-5'>
         <Col xs={12}>
-          <Button variant='secondary'>Send Results By Email</Button>
+          <Button
+            disabled={loadingEmail === false ? true : false}
+            variant='secondary'
+            onClick={() => {
+              if (userInfo) createEmail(userInfo.email, color)
+            }}
+          >
+            Send Results By Email
+          </Button>
         </Col>
         <Col xs={12} className='mt-1'>
           <small>{userInfo?.email}</small>

@@ -43,9 +43,6 @@ const FormScreen = (): JSX.Element => {
     if (!questions) getQuestions()
   }, [questions, getQuestions])
 
-  // useEffect(() => {
-  //   fetchSubmission()
-  // }, [fetchSubmission])
   useEffect(() => {
     if (!userResetFlag) fetchSubmission()
   }, [userResetFlag, fetchSubmission])

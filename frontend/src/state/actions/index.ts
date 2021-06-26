@@ -1,9 +1,5 @@
 import { ActionType } from '../action-types'
-import {
-  IQuestion,
-  IQuestionAnswer,
-  ISubmission,
-} from '../../../../backend/types'
+import { IQuestion, ISubmission } from '../../../../backend/types'
 
 export interface LoginRequestAction {
   type: ActionType.LOGIN_REQUEST
@@ -141,6 +137,30 @@ export interface SubmissionCreateFailAction {
   payload: { error: string }
 }
 
+export interface EmailFetchRequestAction {
+  type: ActionType.EMAIL_FETCH_REQUEST
+}
+export interface EmailFetchSuccessAction {
+  type: ActionType.EMAIL_FETCH_SUCCESS
+  payload: boolean
+}
+export interface EmailFetchFailAction {
+  type: ActionType.EMAIL_FETCH_FAIL
+  payload: { error: string }
+}
+
+export interface EmailCreateRequestAction {
+  type: ActionType.EMAIL_CREATE_REQUEST
+}
+export interface EmailCreateSuccessAction {
+  type: ActionType.EMAIL_CREATE_SUCCESS
+  payload: boolean
+}
+export interface EmailCreateFailAction {
+  type: ActionType.EMAIL_CREATE_FAIL
+  payload: { error: string }
+}
+
 export type Action =
   | LoginRequestAction
   | LoginSuccessAction
@@ -167,3 +187,9 @@ export type Action =
   | SubmissionCreateRequestAction
   | SubmissionCreateSuccessAction
   | SubmissionCreateFailAction
+  | EmailFetchRequestAction
+  | EmailFetchSuccessAction
+  | EmailFetchFailAction
+  | EmailCreateRequestAction
+  | EmailCreateSuccessAction
+  | EmailCreateFailAction

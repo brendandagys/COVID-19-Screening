@@ -69,7 +69,7 @@ export const checkForConfirmationEmail = asyncHandler(
     })
 
     if (submission?.emailed) {
-      res.json(true)
+      res.json({ emailSent: true })
     } else {
       res.status(404)
       throw new Error('You have not completed the screening today')
@@ -82,7 +82,7 @@ export const checkForConfirmationEmail = asyncHandler(
 // @access  Private
 export const sendConfirmationEmail = asyncHandler(
   async (req: IRequest, res: Response) => {
-    const { to, color } = req.body
+    const { to, color }: { to: string; color: string } = req.body
 
     const submission = await Submission.findOne({
       user: req.user._id,
@@ -93,8 +93,10 @@ export const sendConfirmationEmail = asyncHandler(
       await sendEmail(to, color)
       submission.emailed = true
       await submission.save()
+      res.status(201).json({ emailSent: true })
+    } else {
+      res.status(400)
+      throw new Error('Could not send email. Please try again.')
     }
-
-    res.status(201)
   }
 )

@@ -11,6 +11,12 @@ import {
   SubmissionCreateFailAction,
   SubmissionFetchResetAction,
   SubmissionFetchFlagResetAction,
+  EmailFetchRequestAction,
+  EmailFetchSuccessAction,
+  EmailFetchFailAction,
+  EmailCreateRequestAction,
+  EmailCreateSuccessAction,
+  EmailCreateFailAction,
 } from '../actions'
 
 export const fetchSubmission =
@@ -118,6 +124,98 @@ export const createSubmission =
     } catch (e) {
       dispatch({
         type: ActionType.SUBMISSION_CREATE_FAIL,
+        payload: {
+          error:
+            e.response && e.response.data.message
+              ? e.response.data.message
+              : e.message,
+        },
+      })
+    }
+  }
+
+export const fetchEmail =
+  () =>
+  async (
+    dispatch: Dispatch<
+      EmailFetchRequestAction | EmailFetchSuccessAction | EmailFetchFailAction
+    >,
+    getState: any
+  ) => {
+    try {
+      dispatch({
+        type: ActionType.EMAIL_FETCH_REQUEST,
+      })
+
+      const {
+        authenticate: { userInfo },
+      } = getState()
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      }
+      const { data } = await axios.get('/api/submissions/email', config)
+
+      dispatch({
+        type: ActionType.EMAIL_FETCH_SUCCESS,
+        payload: data.emailSent,
+      })
+    } catch (e) {
+      dispatch({
+        type: ActionType.EMAIL_FETCH_FAIL,
+        payload: {
+          error:
+            e.response && e.response.data.message
+              ? e.response.data.message
+              : e.message,
+        },
+      })
+    }
+  }
+
+export const createEmail =
+  (to: string, color: string) =>
+  async (
+    dispatch: Dispatch<
+      | EmailCreateRequestAction
+      | EmailCreateSuccessAction
+      | EmailCreateFailAction
+      | EmailFetchSuccessAction
+    >,
+    getState: any
+  ) => {
+    try {
+      dispatch({
+        type: ActionType.EMAIL_CREATE_REQUEST,
+      })
+
+      const {
+        authenticate: { userInfo },
+      } = getState()
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      }
+
+      const { data } = await axios.post(
+        '/api/submissions/email',
+        { to, color },
+        config
+      )
+
+      dispatch({
+        type: ActionType.EMAIL_CREATE_SUCCESS,
+        payload: data,
+      })
+    } catch (e) {
+      dispatch({
+        type: ActionType.EMAIL_CREATE_FAIL,
         payload: {
           error:
             e.response && e.response.data.message

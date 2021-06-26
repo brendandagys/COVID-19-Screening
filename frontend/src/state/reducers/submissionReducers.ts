@@ -15,6 +15,16 @@ export type SubmissionCreateState = {
   submission: ISubmission | null
 }
 
+export type EmailFetchState = {
+  loading?: boolean
+  error?: string
+}
+
+export type EmailCreateState = {
+  loading?: boolean
+  error?: string
+}
+
 export const submissionFetchReducer = (
   state: SubmissionFetchState = { submission: null },
   action: Action
@@ -51,6 +61,38 @@ export const submissionCreateReducer = (
       return { submission: action.payload }
     case ActionType.SUBMISSION_CREATE_FAIL:
       return { error: action.payload.error, submission: null }
+    default:
+      return state
+  }
+}
+
+export const emailFetchReducer = (
+  state: EmailFetchState = {},
+  action: Action
+): EmailFetchState => {
+  switch (action.type) {
+    case ActionType.EMAIL_FETCH_REQUEST:
+      return { loading: true }
+    case ActionType.EMAIL_FETCH_SUCCESS:
+      return { loading: false }
+    case ActionType.EMAIL_FETCH_FAIL:
+      return { error: action.payload.error }
+    default:
+      return state
+  }
+}
+
+export const emailCreateReducer = (
+  state: EmailCreateState = {},
+  action: Action
+): EmailCreateState => {
+  switch (action.type) {
+    case ActionType.EMAIL_CREATE_REQUEST:
+      return { loading: true }
+    case ActionType.EMAIL_CREATE_SUCCESS:
+      return { loading: false }
+    case ActionType.EMAIL_CREATE_FAIL:
+      return { error: action.payload.error }
     default:
       return state
   }
