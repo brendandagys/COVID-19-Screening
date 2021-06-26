@@ -72,7 +72,7 @@ export const checkForConfirmationEmail = asyncHandler(
       res.json({ emailSent: true })
     } else {
       res.status(404)
-      throw new Error('You have not completed the screening today')
+      throw new Error('You have not sent an email confirmation today')
     }
   }
 )

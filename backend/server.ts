@@ -1,13 +1,14 @@
 import express from 'express'
+
 import path from 'path'
+import dotenv from 'dotenv'
+dotenv.config({ path: __dirname + '/../.env' })
+
 import { notFoundHandler, errorHandler } from './middleware/errorMiddleware'
 
 import userRoutes from './routes/userRoutes'
 import questionRoutes from './routes/questionRoutes'
 import submissionRoutes from './routes/submissionRoutes'
-
-import dotenv from 'dotenv'
-dotenv.config({ path: __dirname + '/../.env' })
 
 import connectDatabase from './config/database'
 connectDatabase()

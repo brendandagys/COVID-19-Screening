@@ -11,9 +11,11 @@ const CompletedScreen = (): JSX.Element => {
     (state) => state.authenticate
   )
 
-  const { loading: loadingEmail, error: errorEmail } = useTypedSelector(
-    (state) => state.emailFetch
-  )
+  const { loading: loadingEmailFetch, error: errorEmailFetch } =
+    useTypedSelector((state) => state.emailFetch)
+
+  const { loading: loadingEmailCreate, error: errorEmailCreate } =
+    useTypedSelector((state) => state.emailCreate)
 
   const { clearSubmission, createEmail, fetchEmail } = useActions()
 
@@ -55,7 +57,11 @@ const CompletedScreen = (): JSX.Element => {
       <Row className='my-3 py-5'>
         <Col xs={12}>
           <Button
-            disabled={loadingEmail === false ? true : false}
+            disabled={
+              loadingEmailFetch === false || loadingEmailCreate === false
+                ? true
+                : false
+            }
             variant='secondary'
             onClick={() => {
               if (userInfo) createEmail(userInfo.email, color)

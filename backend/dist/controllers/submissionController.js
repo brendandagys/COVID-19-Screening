@@ -39,11 +39,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.submitSubmission = exports.getSubmission = void 0;
+exports.sendConfirmationEmail = exports.checkForConfirmationEmail = exports.submitSubmission = exports.getSubmission = void 0;
 var express_async_handler_1 = __importDefault(require("express-async-handler"));
 var Submission_1 = __importDefault(require("../models/Submission"));
+var sendEmail_1 = require("../utils/sendEmail");
 // @desc    Get today's answer
-// @route   GET /api/answers
+// @route   GET /api/submissions
 // @access  Private
 exports.getSubmission = express_async_handler_1.default(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var submission;
@@ -72,7 +73,7 @@ exports.getSubmission = express_async_handler_1.default(function (req, res) { re
     });
 }); });
 // @desc    Submit answers for today
-// @route   POST /api/answers
+// @route   POST /api/submissions
 // @access  Private
 exports.submitSubmission = express_async_handler_1.default(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, answers, emailed, submissionExists, submission;
@@ -105,6 +106,62 @@ exports.submitSubmission = express_async_handler_1.default(function (req, res) {
                     throw new Error('Unable to submit');
                 }
                 return [2 /*return*/];
+        }
+    });
+}); });
+// @desc    Check for confirmation email
+// @route   GET /api/submissions/email
+// @access  Private
+exports.checkForConfirmationEmail = express_async_handler_1.default(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var submission;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, Submission_1.default.findOne({
+                    user: req.user._id,
+                    updatedAt: { $gte: new Date().setHours(0, 0, 0, 0) },
+                })];
+            case 1:
+                submission = _a.sent();
+                if (submission === null || submission === void 0 ? void 0 : submission.emailed) {
+                    res.json({ emailSent: true });
+                }
+                else {
+                    res.status(404);
+                    throw new Error('You have not sent an email confirmation today');
+                }
+                return [2 /*return*/];
+        }
+    });
+}); });
+// @desc    Send confirmation email
+// @route   POST /api/submissions/email
+// @access  Private
+exports.sendConfirmationEmail = express_async_handler_1.default(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, to, color, submission;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _a = req.body, to = _a.to, color = _a.color;
+                return [4 /*yield*/, Submission_1.default.findOne({
+                        user: req.user._id,
+                        updatedAt: { $gte: new Date().setHours(0, 0, 0, 0) },
+                    })];
+            case 1:
+                submission = _b.sent();
+                if (!submission) return [3 /*break*/, 4];
+                return [4 /*yield*/, sendEmail_1.sendEmail(to, color)];
+            case 2:
+                _b.sent();
+                submission.emailed = true;
+                return [4 /*yield*/, submission.save()];
+            case 3:
+                _b.sent();
+                res.status(201).json({ emailSent: true });
+                return [3 /*break*/, 5];
+            case 4:
+                res.status(400);
+                throw new Error('Could not send email. Please try again.');
+            case 5: return [2 /*return*/];
         }
     });
 }); });
