@@ -29,7 +29,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 else {
     app.get('/', function (req, res) {
-        res.send('Server is running...');
+        res.send('API server is running...');
     });
 }
 // Custom error middleware
