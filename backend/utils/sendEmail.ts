@@ -20,7 +20,7 @@ export const sendEmail = async (
     to,
     subject: 'COVID-19 Screening - ' + new Date().toISOString().slice(0, 10),
     html: `
-    <div style="color: ${fontColor}; background-color: ${color}; text-align: center; border-radius: 8px; padding: 10px">
+    <div style="color: ${fontColor}; background-color: ${color}; text-align: center; border-radius: 10px; padding: 10px">
       <h2>
         Self-Assessment Results
       </h2>

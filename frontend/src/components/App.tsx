@@ -21,10 +21,10 @@ const App = (): JSX.Element => {
     if (!userInfo) {
       history.push('/login')
     }
-    if (submission) {
-      history.push('/completed')
-    }
-  }, [history, submission, userInfo])
+    // if (submission) {
+    //   history.push('/completed')
+    // }
+  }, [history, userInfo])
 
   return (
     <main className='py-3'>
@@ -42,16 +42,20 @@ const App = (): JSX.Element => {
         <Route path='/completed'>
           {!userInfo ? (
             <Redirect to='/login?redirect=/completed' />
-          ) : !submission ? (
-            <Redirect to='/' />
-          ) : userResetFlag ? (
+          ) : !submission || userResetFlag ? (
             <Redirect to='/' />
           ) : (
             <CompletedScreen />
           )}
         </Route>
         <Route exact path='/'>
-          {!userInfo ? <Redirect to='/login' /> : <FormScreen />}
+          {!userInfo ? (
+            <Redirect to='/login' />
+          ) : submission ? (
+            <Redirect to='/completed' />
+          ) : (
+            <FormScreen />
+          )}
         </Route>
       </Container>
     </main>
