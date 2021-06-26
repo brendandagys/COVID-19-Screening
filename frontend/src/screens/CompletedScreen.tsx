@@ -29,6 +29,7 @@ const CompletedScreen = (): JSX.Element => {
   switch (new Date().getDay()) {
     case 0:
       color = '#2E5090'
+      fontColor = 'white'
       break
     case 1:
       color = '#41924B'
@@ -41,13 +42,13 @@ const CompletedScreen = (): JSX.Element => {
       break
     case 4:
       color = '#2E5090'
+      fontColor = 'white'
       break
     case 5:
       color = '#FFB347'
       break
     case 6:
-      color = '#2E5090'
-      fontColor = 'white'
+      color = '#CDB7F6'
   }
 
   return (
