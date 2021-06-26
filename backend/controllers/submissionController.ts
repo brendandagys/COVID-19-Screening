@@ -82,7 +82,11 @@ export const checkForConfirmationEmail = asyncHandler(
 // @access  Private
 export const sendConfirmationEmail = asyncHandler(
   async (req: IRequest, res: Response) => {
-    const { to, color }: { to: string; color: string } = req.body
+    const {
+      to,
+      color,
+      fontColor,
+    }: { to: string; color: string; fontColor: string } = req.body
 
     const submission = await Submission.findOne({
       user: req.user._id,
@@ -90,7 +94,7 @@ export const sendConfirmationEmail = asyncHandler(
     })
 
     if (submission) {
-      await sendEmail(to, color)
+      await sendEmail(to, color, fontColor)
       submission.emailed = true
       await submission.save()
       res.status(201).json({ emailSent: true })

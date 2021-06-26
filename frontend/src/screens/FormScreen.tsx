@@ -34,10 +34,10 @@ const FormScreen = (): JSX.Element => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setShow(true)
+      !submission && setShow(true)
     }, 700)
     return () => clearTimeout(timer)
-  }, [])
+  }, [submission])
 
   useEffect(() => {
     if (!questions) getQuestions()

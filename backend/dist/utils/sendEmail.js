@@ -38,7 +38,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sendEmail = void 0;
 var nodemailer = require('nodemailer');
-var xoauth2 = require('xoauth2');
 var sendEmail = function (to, color) { return __awaiter(void 0, void 0, void 0, function () {
     var smtpTransport, mailOptions;
     return __generator(this, function (_a) {
@@ -54,15 +53,42 @@ var sendEmail = function (to, color) { return __awaiter(void 0, void 0, void 0, 
                     },
                 });
                 mailOptions = {
-                    from: process.env.GMAIL_USERNAME,
+                    from: "'COVID-19 Screening' <" + process.env.SCREENING_GMAIL_USERNAME + ">",
                     to: to,
-                    subject: new Date().toISOString().slice(0, 10) + ' COVID-19 Screening',
-                    html: "\n    <div style=\"background-color: '" + color + "'; text-align: 'center'>\n      Self-Assessment Results<br />\n\n      For: " + to + "<br />\n\n      Assessment completed Wendesday, " + new Date().toDateString() + ", " + new Date()
+                    subject: 'COVID-19 Screening - ' + new Date().toISOString().slice(0, 10),
+                    html: "\n    <div style=\"text-align:center\">\n      <h2>\n        Self-Assessment Results\n      </h2>\n\n      <h3>\n        For: " + to + "\n      </h3>\n\n      <h4>\n        Assessment completed: " + new Date().toDateString() + ", " + new Date()
                         .toTimeString()
-                        .slice(0, 5) + "<br />\n\n      You are cleared to work. Please be prepared to show this confirmation at staff entrance point when reporting for your shift.<br />\n\n      Confidentiality Notice: The contents of this email, including any attachments, may contain confidential information, personal and/or health information intended to be reviewed only by the individual(s) or organization to whom it is addressed.<br />\n\n      If you are not the intended recipient or an authorized representative of the intended recipient, please be notified that any review, distribution, copying, saving, or disclosure is strictly prohibited. If you have received this email in error, please immediately notify the sender by return email and delete this email from your system, including from the deleted items folder. Thank you for your cooperation.\n    </div>\n    ",
+                        .slice(0, 5) + "\n      </h4>\n\n      <h5>\n        You are cleared to work. Please be prepared to show this confirmation at staff entrance point when reporting for your shift.<br />\n\n        Confidentiality Notice: The contents of this email, including any attachments, may contain confidential information, personal and/or health information intended to be reviewed only by the individual(s) or organization to whom it is addressed.<br />\n\n        If you are not the intended recipient or an authorized representative of the intended recipient, please be notified that any review, distribution, copying, saving, or disclosure is strictly prohibited. If you have received this email in error, please immediately notify the sender by return email and delete this email from your system, including from the deleted items folder. Thank you for your cooperation.\n      </h5>\n    </div>\n    ",
                 };
-                return [4 /*yield*/, smtpTransport.sendMail(mailOptions)];
+                //   <div style="background-color: '${color}'; text-align: 'center'>
+                //   Self-Assessment Results<br />
+                //   For: ${to}<br />
+                //   Assessment completed Wendesday, ${new Date().toDateString()}, ${new Date()
+                //   .toTimeString()
+                //   .slice(0, 5)}<br />
+                //   You are cleared to work. Please be prepared to show this confirmation at staff entrance point when reporting for your shift.<br />
+                //   Confidentiality Notice: The contents of this email, including any attachments, may contain confidential information, personal and/or health information intended to be reviewed only by the individual(s) or organization to whom it is addressed.<br />
+                //   If you are not the intended recipient or an authorized representative of the intended recipient, please be notified that any review, distribution, copying, saving, or disclosure is strictly prohibited. If you have received this email in error, please immediately notify the sender by return email and delete this email from your system, including from the deleted items folder. Thank you for your cooperation.
+                // </div>
+                return [4 /*yield*/, smtpTransport.sendMail(mailOptions, function (err, res) {
+                        if (err) {
+                            console.log(err);
+                        }
+                        else {
+                            console.log('Mail response: ' + res.response);
+                        }
+                    })];
             case 1:
+                //   <div style="background-color: '${color}'; text-align: 'center'>
+                //   Self-Assessment Results<br />
+                //   For: ${to}<br />
+                //   Assessment completed Wendesday, ${new Date().toDateString()}, ${new Date()
+                //   .toTimeString()
+                //   .slice(0, 5)}<br />
+                //   You are cleared to work. Please be prepared to show this confirmation at staff entrance point when reporting for your shift.<br />
+                //   Confidentiality Notice: The contents of this email, including any attachments, may contain confidential information, personal and/or health information intended to be reviewed only by the individual(s) or organization to whom it is addressed.<br />
+                //   If you are not the intended recipient or an authorized representative of the intended recipient, please be notified that any review, distribution, copying, saving, or disclosure is strictly prohibited. If you have received this email in error, please immediately notify the sender by return email and delete this email from your system, including from the deleted items folder. Thank you for your cooperation.
+                // </div>
                 _a.sent();
                 return [2 /*return*/];
         }

@@ -177,7 +177,7 @@ export const fetchEmail =
   }
 
 export const createEmail =
-  (to: string, color: string) =>
+  (to: string, color: string, fontColor: string) =>
   async (
     dispatch: Dispatch<
       | EmailCreateRequestAction
@@ -205,7 +205,7 @@ export const createEmail =
 
       const { data } = await axios.post(
         '/api/submissions/email',
-        { to, color },
+        { to, color, fontColor },
         config
       )
 

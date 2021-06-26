@@ -24,6 +24,7 @@ const CompletedScreen = (): JSX.Element => {
   }, [fetchEmail])
 
   let color: string = '#2E5090'
+  let fontColor: string = 'black'
 
   switch (new Date().getDay()) {
     case 0:
@@ -46,6 +47,7 @@ const CompletedScreen = (): JSX.Element => {
       break
     case 6:
       color = '#2E5090'
+      fontColor = 'white'
   }
 
   return (
@@ -64,25 +66,25 @@ const CompletedScreen = (): JSX.Element => {
             }
             variant='secondary'
             onClick={() => {
-              if (userInfo) createEmail(userInfo.email, color)
+              if (userInfo) createEmail(userInfo.email, color, fontColor)
             }}
           >
             Send Results By Email
           </Button>
         </Col>
         <Col xs={12} className='mt-1'>
-          <small>{userInfo?.email}</small>
+          <small style={{ color: fontColor }}>{userInfo?.email}</small>
         </Col>
       </Row>
       <Row>
         <Col>
-          <p style={{ fontWeight: 'bold' }}>{`Completed by ${
+          <p style={{ fontWeight: 'bold', color: fontColor }}>{`Completed by ${
             userInfo?.firstName
           } ${
             userInfo?.lastName
           } on ${new Date().toLocaleDateString()}, ${new Date().toLocaleTimeString()}`}</p>
           <br />
-          <p>
+          <p style={{ color: fontColor }}>
             You are cleared to work. Please be prepared to show this
             confirmation at staff entrance point when reporting for your shift.
           </p>
