@@ -57,7 +57,7 @@ const FormScreen = (): JSX.Element => {
   }, [numQuestionsAnswered, questions])
 
   useEffect(() => {
-    if (allQuestionsAnswered) animateScroll.scrollToBottom()
+    if (allQuestionsAnswered) animateScroll.scrollToBottom({ smooth: true })
   }, [allQuestionsAnswered])
 
   const markQuestionAnswered = (operation: 'add' | 'subtract') => {
