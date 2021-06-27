@@ -9,14 +9,15 @@
   "main": "dist/server.js",
   "scripts": {
     "start": "node dist/server.js",
-    "dev": "concurrently \"tsc && nodemon --watch 'backend/**/*.ts' --exec 'ts-node' backend/server.ts\" \"npm start --prefix frontend\"",
+    "dev": "concurrently \"tsc && nodemon --watch 'backend/**/*.ts' --exec 'ts-node' backend/server.ts\" \"wait-on http://localhost:5000 && npm start --prefix frontend\"",
     "postinstall": "tsc",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
   },
   "author": "Brendan Dagys",
   "license": "ISC",
   "devDependencies": {
-    "concurrently": "^6.2.0"
+    "concurrently": "^6.2.0",
+    "wait-on": "^6.0.0"
   },
   "dependencies": {
     "@types/bcryptjs": "^2.4.2",
