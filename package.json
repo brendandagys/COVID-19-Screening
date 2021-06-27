@@ -5,10 +5,10 @@
   "engines": {
     "node": "14.16.1"
   },
-  "main": "dist/index.js",
+  "main": "backend/dist/server.js",
   "scripts": {
     "start": "tsc && nodemon --watch 'backend/**/*.ts' --exec 'ts-node' backend/server.ts",
-    "dev": "concurrently \"npm run start\" \"npm start --prefix ./frontend\"",
+    "dev": "concurrently \"npm run start\" \"npm start --prefix frontend\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
   },
   "author": "Brendan Dagys",
