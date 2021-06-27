@@ -4,20 +4,21 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { useTypedSelector } from '../hooks/useTypedSelector'
 import Button from 'react-bootstrap/Button'
+import Message from '../components/Message'
 import { useActions } from '../hooks/useActions'
 
 const CompletedScreen = ({ createdAt }: { createdAt: string }): JSX.Element => {
   const createdDate = new Date(createdAt)
 
-  const { userInfo } = useTypedSelector(
-    (state) => state.authenticate
+  const { userInfo } = useTypedSelector((state) => state.authenticate)
+
+  const { loading: loadingEmailFetch } = useTypedSelector(
+    (state) => state.emailFetch
   )
 
-  const { loading: loadingEmailFetch } =
-    useTypedSelector((state) => state.emailFetch)
-
-  const { loading: loadingEmailCreate, } =
-    useTypedSelector((state) => state.emailCreate)
+  const { loading: loadingEmailCreate } = useTypedSelector(
+    (state) => state.emailCreate
+  )
 
   const { clearSubmission, createEmail, fetchEmail } = useActions()
 
@@ -60,19 +61,19 @@ const CompletedScreen = ({ createdAt }: { createdAt: string }): JSX.Element => {
     >
       <Row className='my-3 py-5'>
         <Col xs={12}>
-          <Button
-            disabled={
-              loadingEmailFetch === false || loadingEmailCreate === false
-                ? true
-                : false
-            }
-            variant='secondary'
-            onClick={() => {
-              if (userInfo) createEmail(userInfo.email, color, fontColor)
-            }}
-          >
-            Send Results By Email
-          </Button>
+          {loadingEmailCreate === false ? (
+            <Message variant='success'>Email sent!</Message>
+          ) : (
+            <Button
+              disabled={loadingEmailFetch === false ? true : false}
+              variant='secondary'
+              onClick={() => {
+                if (userInfo) createEmail(userInfo.email, color, fontColor)
+              }}
+            >
+              Send Results By Email
+            </Button>
+          )}
         </Col>
         <Col xs={12} className='mt-1'>
           <small style={{ color: fontColor }}>{userInfo?.email}</small>
