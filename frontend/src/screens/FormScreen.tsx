@@ -23,9 +23,7 @@ const FormScreen = (): JSX.Element => {
   const { submission, userResetFlag } = useTypedSelector(
     (state) => state.submissionFetch
   )
-  const { loading, error, questions } = useTypedSelector(
-    (state) => state.questionsFetch
-  )
+  const { questions } = useTypedSelector((state) => state.questionsFetch)
 
   const submitAnswers = questions?.map((question) => {
     return { question: question._id, answer: 'no' }

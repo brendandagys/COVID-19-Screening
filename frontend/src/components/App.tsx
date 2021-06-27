@@ -21,9 +21,6 @@ const App = (): JSX.Element => {
     if (!userInfo) {
       history.push('/login')
     }
-    // if (submission) {
-    //   history.push('/completed')
-    // }
   }, [history, userInfo])
 
   return (
@@ -45,13 +42,13 @@ const App = (): JSX.Element => {
           ) : !submission || userResetFlag ? (
             <Redirect to='/' />
           ) : (
-            <CompletedScreen />
+            <CompletedScreen createdAt={submission.createdAt} />
           )}
         </Route>
         <Route exact path='/'>
           {!userInfo ? (
             <Redirect to='/login' />
-          ) : submission ? (
+          ) : submission && !userResetFlag ? (
             <Redirect to='/completed' />
           ) : (
             <FormScreen />

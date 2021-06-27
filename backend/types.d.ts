@@ -39,6 +39,7 @@ export interface ISubmission extends Document {
   user: ObjectId
   answers: IQuestionAnswer[]
   emailed: boolean
+  createdAt: date
 }
 
 export interface IToken {

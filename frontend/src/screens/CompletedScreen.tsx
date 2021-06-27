@@ -6,15 +6,17 @@ import { useTypedSelector } from '../hooks/useTypedSelector'
 import Button from 'react-bootstrap/Button'
 import { useActions } from '../hooks/useActions'
 
-const CompletedScreen = (): JSX.Element => {
-  const { loading, error, userInfo } = useTypedSelector(
+const CompletedScreen = ({ createdAt }: { createdAt: string }): JSX.Element => {
+  const createdDate = new Date(createdAt)
+
+  const { userInfo } = useTypedSelector(
     (state) => state.authenticate
   )
 
-  const { loading: loadingEmailFetch, error: errorEmailFetch } =
+  const { loading: loadingEmailFetch } =
     useTypedSelector((state) => state.emailFetch)
 
-  const { loading: loadingEmailCreate, error: errorEmailCreate } =
+  const { loading: loadingEmailCreate, } =
     useTypedSelector((state) => state.emailCreate)
 
   const { clearSubmission, createEmail, fetchEmail } = useActions()
@@ -27,27 +29,26 @@ const CompletedScreen = (): JSX.Element => {
   let fontColor: string = 'black'
 
   switch (new Date().getDay()) {
-    case 0:
-      color = '#2E5090'
-      fontColor = 'white'
+    case 0: // Sunday - purple
+      color = '#CDB7F6'
       break
-    case 1:
-      color = '#41924B'
-      break
-    case 2:
+    case 1: // Monday - yellow
       color = '#FEF250'
       break
-    case 3:
+    case 2: // Tuesday - green
+      color = '#41924B'
+      break
+    case 3: // Wednesday - pink
       color = '#FFD1DC'
       break
-    case 4:
+    case 4: // Thursday - blue
       color = '#2E5090'
       fontColor = 'white'
       break
-    case 5:
+    case 5: // Friday - orange
       color = '#FFB347'
       break
-    case 6:
+    case 6: // Saturday - purple
       color = '#CDB7F6'
   }
 
@@ -55,7 +56,7 @@ const CompletedScreen = (): JSX.Element => {
     <Container
       fluid
       className='text-center'
-      style={{ backgroundColor: color, height: '87vh' }}
+      style={{ backgroundColor: color, height: '87vh', borderRadius: '12px' }}
     >
       <Row className='my-3 py-5'>
         <Col xs={12}>
@@ -83,7 +84,7 @@ const CompletedScreen = (): JSX.Element => {
             userInfo?.firstName
           } ${
             userInfo?.lastName
-          } on ${new Date().toLocaleDateString()}, ${new Date().toLocaleTimeString()}`}</p>
+          } on ${createdDate.toLocaleDateString()}, ${createdDate.toLocaleTimeString()}`}</p>
           <br />
           <p style={{ color: fontColor }}>
             You are cleared to work. Please be prepared to show this
