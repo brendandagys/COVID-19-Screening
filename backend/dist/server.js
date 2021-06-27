@@ -21,10 +21,10 @@ app.use('/api/questions', questionRoutes_1.default);
 app.use('/api/submissions', submissionRoutes_1.default);
 if (process.env.NODE_ENV === 'production') {
     // Express will serve up production assets like our main.js or main.css file
-    app.use(express_1.default.static(path_1.default.join(__dirname, '/frontend/build')));
+    app.use(express_1.default.static(path_1.default.join(__dirname, 'frontend/build')));
     // Express will serve up the index.html file if it doesn't recognize the route
     app.get('*', function (req, res) {
-        res.sendFile(path_1.default.resolve(__dirname, 'frontend', 'build', 'index.html'));
+        res.sendFile(path_1.default.resolve('frontend', 'build', 'index.html'));
     });
 }
 else {
