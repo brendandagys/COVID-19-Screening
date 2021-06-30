@@ -7,20 +7,28 @@ var moment = require('moment-timezone')
 
 const offset = moment.tz.zone('America/Toronto').utcOffset(moment()) // Positive number of minutes that EST lags UTC
 
+console.log(moment().utc().hours())
+
 // @desc    Get today's answer
 // @route   GET /api/submissions
 // @access  Private
 export const getSubmission = asyncHandler(
   async (req: IRequest, res: Response) => {
+    let toCompare = moment()
+      .startOf('day') // May or may not be UTC if ran from server
+      .utc() // Convert to UTC from beginning of TZ day
+      .startOf('day') // Reset to beginning of actual UTC day
+      .add(offset, 'm') // Add the current offset
+
+    // If ran on server, the date could be 1 forward from TZ date
+    if (moment().utc().hours() < 4) {
+      toCompare = toCompare.add(-1, 'd')
+    }
+
     const submission = await Submission.findOne({
       user: req.user._id,
       createdAt: {
-        $gte: moment()
-          .startOf('day')
-          .utc()
-          .startOf('day')
-          .add(offset, 'm')
-          .toDate(),
+        $gte: toCompare.toDate(),
       }, // .toDate() returns JavaScript Date
     })
 
@@ -40,15 +48,20 @@ export const submitSubmission = asyncHandler(
   async (req: IRequest, res: Response) => {
     const { answers, emailed } = req.body
 
+    let toCompare = moment()
+      .startOf('day')
+      .utc()
+      .startOf('day')
+      .add(offset, 'm')
+
+    if (moment().utc().hours() < 4) {
+      toCompare = toCompare.add(-1, 'd')
+    }
+
     const submissionExists: ISubmission | null = await Submission.findOne({
       user: req.user._id,
       createdAt: {
-        $gte: moment()
-          .startOf('day')
-          .utc()
-          .startOf('day')
-          .add(offset, 'm')
-          .toDate(),
+        $gte: toCompare.toDate(),
       },
     })
 
@@ -77,15 +90,20 @@ export const submitSubmission = asyncHandler(
 // @access  Private
 export const checkForConfirmationEmail = asyncHandler(
   async (req: IRequest, res: Response) => {
+    let toCompare = moment()
+      .startOf('day')
+      .utc()
+      .startOf('day')
+      .add(offset, 'm')
+
+    if (moment().utc().hours() < 4) {
+      toCompare = toCompare.add(-1, 'd')
+    }
+
     const submission = await Submission.findOne({
       user: req.user._id,
       createdAt: {
-        $gte: moment()
-          .startOf('day')
-          .utc()
-          .startOf('day')
-          .add(offset, 'm')
-          .toDate(),
+        $gte: toCompare.toDate(),
       },
     })
 
@@ -109,15 +127,20 @@ export const sendConfirmationEmail = asyncHandler(
       fontColor,
     }: { to: string; color: string; fontColor: string } = req.body
 
+    let toCompare = moment()
+      .startOf('day')
+      .utc()
+      .startOf('day')
+      .add(offset, 'm')
+
+    if (moment().utc().hours() < 4) {
+      toCompare = toCompare.add(-1, 'd')
+    }
+
     const submission = await Submission.findOne({
       user: req.user._id,
       createdAt: {
-        $gte: moment()
-          .startOf('day')
-          .utc()
-          .startOf('day')
-          .add(offset, 'm')
-          .toDate(),
+        $gte: toCompare.toDate(),
       },
     })
 
