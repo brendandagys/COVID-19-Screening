@@ -3,7 +3,8 @@ var nodemailer = require('nodemailer')
 export const sendEmail = async (
   to: string,
   color: string,
-  fontColor: string
+  fontColor: string,
+  submitTimeStamp: string
 ) => {
   let smtpTransport = nodemailer.createTransport({
     host: 'smtp.gmail.com',
@@ -30,9 +31,7 @@ export const sendEmail = async (
       </h3>
 
       <h4>
-        Assessment completed: ${new Date().toDateString()}, ${new Date()
-      .toTimeString()
-      .slice(0, 5)}
+        Assessment completed: ${submitTimeStamp}
       </h4>
 
       <h5>

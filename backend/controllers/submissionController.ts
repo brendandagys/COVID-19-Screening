@@ -125,7 +125,13 @@ export const sendConfirmationEmail = asyncHandler(
       to,
       color,
       fontColor,
-    }: { to: string; color: string; fontColor: string } = req.body
+      submitTimeStamp,
+    }: {
+      to: string
+      color: string
+      fontColor: string
+      submitTimeStamp: string
+    } = req.body
 
     let toCompare = moment()
       .startOf('day')
@@ -145,7 +151,7 @@ export const sendConfirmationEmail = asyncHandler(
     })
 
     if (submission) {
-      await sendEmail(to, color, fontColor)
+      await sendEmail(to, color, fontColor, submitTimeStamp)
       submission.emailed = true
       await submission.save()
       res.status(201).json({ emailSent: true })

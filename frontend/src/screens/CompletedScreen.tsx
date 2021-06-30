@@ -72,7 +72,13 @@ const CompletedScreen = ({ createdAt }: { createdAt: string }): JSX.Element => {
               disabled={loadingEmailFetch === false ? true : false}
               variant='secondary'
               onClick={() => {
-                if (userInfo) createEmail(userInfo.email, color, fontColor)
+                if (userInfo)
+                  createEmail(
+                    userInfo.email,
+                    color,
+                    fontColor,
+                    `${createdDate.toLocaleDateString()}, ${createdDate.toLocaleTimeString()}`
+                  )
               }}
             >
               Send Results By Email
