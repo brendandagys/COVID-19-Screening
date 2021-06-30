@@ -81,9 +81,8 @@ const FormScreen = (): JSX.Element => {
         })}
         {allQuestionsAnswered && (
           <Button
-            size='lg'
             className='mt-3'
-            style={{ width: '100%', fontSize: '3rem' }}
+            style={{ width: '100%', fontSize: '2rem' }}
             type='submit'
             variant='primary'
             onClick={() => createSubmission(submitAnswers, false)}

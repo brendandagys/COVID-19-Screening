@@ -3,6 +3,9 @@ import { Response } from 'express'
 import { IRequest, ISubmission } from '../types'
 import Submission from '../models/Submission'
 import { sendEmail } from '../utils/sendEmail'
+var moment = require('moment-timezone')
+
+const offset = moment.tz.zone('America/Toronto').utcOffset(moment()) // Positive number of minutes that EST lags UTC
 
 // @desc    Get today's answer
 // @route   GET /api/submissions
@@ -11,11 +14,15 @@ export const getSubmission = asyncHandler(
   async (req: IRequest, res: Response) => {
     const submission = await Submission.findOne({
       user: req.user._id,
-      updatedAt: { $gte: new Date().setHours(0, 0, 0, 0) },
+      createdAt: {
+        $gte: moment()
+          .startOf('day')
+          .utc()
+          .startOf('day')
+          .add(offset, 'm')
+          .toDate(),
+      }, // .toDate() returns JavaScript Date
     })
-
-    // console.log(new Date().setHours(0, 0, 0, 0))
-    // console.log(submission?.updatedAt)
 
     if (submission) {
       res.json(submission)
@@ -35,7 +42,14 @@ export const submitSubmission = asyncHandler(
 
     const submissionExists: ISubmission | null = await Submission.findOne({
       user: req.user._id,
-      createdAt: { $gte: new Date() },
+      createdAt: {
+        $gte: moment()
+          .startOf('day')
+          .utc()
+          .startOf('day')
+          .add(offset, 'm')
+          .toDate(),
+      },
     })
 
     if (submissionExists) {
@@ -65,7 +79,14 @@ export const checkForConfirmationEmail = asyncHandler(
   async (req: IRequest, res: Response) => {
     const submission = await Submission.findOne({
       user: req.user._id,
-      updatedAt: { $gte: new Date().setHours(0, 0, 0, 0) },
+      createdAt: {
+        $gte: moment()
+          .startOf('day')
+          .utc()
+          .startOf('day')
+          .add(offset, 'm')
+          .toDate(),
+      },
     })
 
     if (submission?.emailed) {
@@ -90,7 +111,14 @@ export const sendConfirmationEmail = asyncHandler(
 
     const submission = await Submission.findOne({
       user: req.user._id,
-      updatedAt: { $gte: new Date().setHours(0, 0, 0, 0) },
+      createdAt: {
+        $gte: moment()
+          .startOf('day')
+          .utc()
+          .startOf('day')
+          .add(offset, 'm')
+          .toDate(),
+      },
     })
 
     if (submission) {
