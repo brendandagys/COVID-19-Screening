@@ -57,7 +57,11 @@ const CompletedScreen = ({ createdAt }: { createdAt: string }): JSX.Element => {
     <Container
       fluid
       className='text-center'
-      style={{ backgroundColor: color, height: '87vh', borderRadius: '13px' }}
+      style={{
+        backgroundColor: color,
+        height: 'calc(100vh - 105px)',
+        borderRadius: '13px',
+      }}
     >
       <Row className='my-3 py-5'>
         <Col xs={12}>
