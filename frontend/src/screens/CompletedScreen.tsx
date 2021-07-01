@@ -69,7 +69,7 @@ const CompletedScreen = ({ createdAt }: { createdAt: string }): JSX.Element => {
             <Message variant='success'>Email sent!</Message>
           ) : (
             <Button
-              disabled={loadingEmailFetch === false ? true : false}
+              disabled={loadingEmailFetch === false}
               variant='secondary'
               onClick={() => {
                 if (userInfo)
