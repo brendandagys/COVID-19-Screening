@@ -6,6 +6,8 @@ import { useTypedSelector } from '../hooks/useTypedSelector'
 import Button from 'react-bootstrap/Button'
 import Message from '../components/Message'
 import { useActions } from '../hooks/useActions'
+import Tooltip from 'react-bootstrap/Tooltip'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 
 const CompletedScreen = ({ createdAt }: { createdAt: string }): JSX.Element => {
   const createdDate = new Date(createdAt)
@@ -68,21 +70,33 @@ const CompletedScreen = ({ createdAt }: { createdAt: string }): JSX.Element => {
           {loadingEmailCreate === false ? (
             <Message variant='success'>Email sent!</Message>
           ) : (
-            <Button
-              disabled={loadingEmailFetch === false}
-              variant='secondary'
-              onClick={() => {
-                if (userInfo)
-                  createEmail(
-                    userInfo.email,
-                    color,
-                    fontColor,
-                    `${createdDate.toLocaleDateString()}, ${createdDate.toLocaleTimeString()}`
-                  )
-              }}
+            <OverlayTrigger
+              placement='bottom'
+              overlay={
+                <Tooltip id='tooltip-disabled'>
+                  You have already sent an email confirmation
+                </Tooltip>
+              }
             >
-              Send Results By Email
-            </Button>
+              <span className='d-inline-block'>
+                <Button
+                  style={{ pointerEvents: 'none' }}
+                  disabled={loadingEmailFetch === false}
+                  variant='secondary'
+                  onClick={() => {
+                    if (userInfo)
+                      createEmail(
+                        userInfo.email,
+                        color,
+                        fontColor,
+                        `${createdDate.toLocaleDateString()}, ${createdDate.toLocaleTimeString()}`
+                      )
+                  }}
+                >
+                  Send Results By Email
+                </Button>
+              </span>
+            </OverlayTrigger>
           )}
         </Col>
         <Col xs={12} className='mt-1'>
