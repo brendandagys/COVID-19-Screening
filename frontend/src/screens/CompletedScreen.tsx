@@ -55,6 +55,24 @@ const CompletedScreen = ({ createdAt }: { createdAt: string }): JSX.Element => {
       color = '#CDB7F6'
   }
 
+  let emailButton = (
+    <Button
+      disabled={loadingEmailFetch === false}
+      variant='secondary'
+      onClick={() => {
+        if (userInfo)
+          createEmail(
+            userInfo.email,
+            color,
+            fontColor,
+            `${createdDate.toLocaleDateString()}, ${createdDate.toLocaleTimeString()}`
+          )
+      }}
+    >
+      Send Results By Email
+    </Button>
+  )
+
   return (
     <Container
       fluid
@@ -69,7 +87,7 @@ const CompletedScreen = ({ createdAt }: { createdAt: string }): JSX.Element => {
         <Col xs={12}>
           {loadingEmailCreate === false ? (
             <Message variant='success'>Email sent!</Message>
-          ) : (
+          ) : loadingEmailFetch === false ? (
             <OverlayTrigger
               placement='bottom'
               overlay={
@@ -78,25 +96,10 @@ const CompletedScreen = ({ createdAt }: { createdAt: string }): JSX.Element => {
                 </Tooltip>
               }
             >
-              <span className='d-inline-block'>
-                <Button
-                  style={{ pointerEvents: 'none' }}
-                  disabled={loadingEmailFetch === false}
-                  variant='secondary'
-                  onClick={() => {
-                    if (userInfo)
-                      createEmail(
-                        userInfo.email,
-                        color,
-                        fontColor,
-                        `${createdDate.toLocaleDateString()}, ${createdDate.toLocaleTimeString()}`
-                      )
-                  }}
-                >
-                  Send Results By Email
-                </Button>
-              </span>
+              <span className='d-inline-block'>{emailButton}</span>
             </OverlayTrigger>
+          ) : (
+            emailButton
           )}
         </Col>
         <Col xs={12} className='mt-1'>
