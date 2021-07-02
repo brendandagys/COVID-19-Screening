@@ -141,7 +141,12 @@ const ProfileScreen = (): JSX.Element => {
         </Form.Group>
         <br /> */}
 
-        <Button type='submit' variant='primary'>
+        <Button
+          style={{ width: '100%' }}
+          className='mt-3 mb-5'
+          type='submit'
+          variant='primary'
+        >
           Update
         </Button>
       </Form>
