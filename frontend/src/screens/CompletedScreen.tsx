@@ -61,7 +61,7 @@ const CompletedScreen = ({ createdAt }: { createdAt: string }): JSX.Element => {
       className='text-center'
       style={{
         backgroundColor: color,
-        height: 'calc(100vh - 105px)',
+        minHeight: 'calc(100vh - 105px)',
         borderRadius: '13px',
       }}
     >
@@ -116,7 +116,7 @@ const CompletedScreen = ({ createdAt }: { createdAt: string }): JSX.Element => {
             confirmation at staff entrance point when reporting for your shift.
           </p>
         </Col>
-        <Col xs={12} className='mt-5'>
+        <Col xs={12} className='mt-5 mb-4'>
           <Button onClick={clearSubmission} variant='secondary'>
             Start Over
           </Button>
