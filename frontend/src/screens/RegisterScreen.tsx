@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link, RouteComponentProps } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
@@ -9,11 +9,12 @@ import Loader from '../components/Loader'
 import FormContainer from '../components/FormContainer'
 import { useTypedSelector } from '../hooks/useTypedSelector'
 import { useActions } from '../hooks/useActions'
+import { useHistory, useLocation } from 'react-router'
 
-const RegisterScreen = ({
-  location,
-  history,
-}: RouteComponentProps): JSX.Element => {
+const RegisterScreen = (): JSX.Element => {
+  const history = useHistory()
+  const location = useLocation()
+
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')

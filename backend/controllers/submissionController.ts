@@ -7,7 +7,7 @@ var moment = require('moment-timezone')
 
 const offset = moment.tz.zone('America/Toronto').utcOffset(moment()) // Positive number of minutes that EST lags UTC
 
-console.log(moment().utc().hours())
+// console.log(moment().utc().hours())
 
 // @desc    Get today's answer
 // @route   GET /api/submissions
