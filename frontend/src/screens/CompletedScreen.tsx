@@ -75,6 +75,7 @@ const CompletedScreen = ({ createdAt }: { createdAt: string }): JSX.Element => {
 
   return (
     <Container
+      data-testid='backgrsound-color'
       fluid
       className='text-center'
       style={{
@@ -83,7 +84,7 @@ const CompletedScreen = ({ createdAt }: { createdAt: string }): JSX.Element => {
         borderRadius: '13px',
       }}
     >
-      <Row className='my-3 py-5'>
+      <Row className='my-3 py-5' data-testid='background-color'>
         <Col xs={12}>
           {loadingEmailCreate === false ? (
             <Message variant='success'>Email sent!</Message>

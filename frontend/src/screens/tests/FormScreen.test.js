@@ -41,9 +41,11 @@ describe('FormScreen tests', () => {
       userEvent.click(screen.getByRole('button', { name: 'Okay' }))
     )
 
-    expect(
-      screen.queryByRole('button', { name: 'Okay' })
-    ).not.toBeInTheDocument()
+    await waitFor(() =>
+      expect(
+        screen.queryByRole('button', { name: 'Okay' })
+      ).not.toBeInTheDocument()
+    )
   })
 
   test('Responding "yes" to a question renders dismissable Contact Us modal', async () => {

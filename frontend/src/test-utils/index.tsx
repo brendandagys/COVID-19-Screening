@@ -2,9 +2,10 @@ import { FC, ReactElement } from 'react'
 import { render, RenderOptions } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
-import store from '../state/store'
+import { initializeStore } from '../state/store'
 
 const AppProvider: FC = ({ children }) => {
+  const store = initializeStore()
   return (
     <BrowserRouter>
       <Provider store={store}>{children}</Provider>

@@ -15,10 +15,13 @@ const initialState = {
   authenticate: { userInfo: userInfoFromStorage },
 }
 
-const store = createStore(
-  reducers,
-  initialState,
-  composeWithDevTools(applyMiddleware(thunk))
-)
+export const initializeStore = () =>
+  createStore(
+    reducers,
+    initialState,
+    composeWithDevTools(applyMiddleware(thunk))
+  )
+
+const store = initializeStore()
 
 export default store

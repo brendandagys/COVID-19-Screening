@@ -69,6 +69,14 @@ export const handlers = [
   }),
 
   rest.get('/api/submissions/email', (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json({ emailSent: true }))
+    return res(ctx.json({ emailSent: true }))
+  }),
+
+  // rest.get('/api/submissions/email', async (req, res, ctx) => {
+  //   return res(ctx.status(404))
+  // }),
+
+  rest.post('/api/submissions/email', (req, res, ctx) => {
+    return res(ctx.status(201), ctx.json({ emailSent: true }))
   }),
 ]
