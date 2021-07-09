@@ -19,27 +19,21 @@ describe('FormScreen tests', () => {
     )
 
     render(<App />)
-  })
 
-  test('Can log in and reach FormScreen', async () => {
     const usernameField = screen.getByLabelText('Username')
     const passwordField = screen.getByLabelText('Password')
     const loginButton = screen.getByRole('button', { name: 'Log In' })
     userEvent.type(usernameField, 'brendan')
     userEvent.type(passwordField, 'testPassword')
     userEvent.click(loginButton)
-  })
 
-  test('Pre-screening modal appears', async () => {
+    // Pre-screening modal appears
     expect(
       await screen.findByText('Pre-Screening Messages')
     ).toBeInTheDocument()
-  })
 
-  test('Can dismiss pre-screening modal', async () => {
-    await waitFor(() =>
-      userEvent.click(screen.getByRole('button', { name: 'Okay' }))
-    )
+    // Can dismiss pre-screening modal
+    userEvent.click(screen.getByRole('button', { name: 'Okay' }))
 
     await waitFor(() =>
       expect(
@@ -52,7 +46,7 @@ describe('FormScreen tests', () => {
     userEvent.click(screen.getAllByRole('button', { name: 'Yes' })[0])
     expect(screen.getByText('Contact Us')).toBeInTheDocument()
 
-    // Confirm that the modal can be dismissed
+    // Confirm that the Contact Us modal can be dismissed
     await waitFor(() =>
       userEvent.click(screen.getByRole('button', { name: 'Okay' }))
     )
@@ -72,9 +66,7 @@ describe('FormScreen tests', () => {
     userEvent.click(screen.getAllByRole('button', { name: 'Yes' })[0])
     expect(screen.getByText('Contact Us')).toBeInTheDocument()
 
-    await waitFor(() =>
-      userEvent.click(screen.getByRole('button', { name: 'Okay' }))
-    )
+    userEvent.click(screen.getByRole('button', { name: 'Okay' }))
 
     expect(
       screen.queryByRole('button', { name: 'Submit' })
