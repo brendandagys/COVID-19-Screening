@@ -5,7 +5,9 @@ import Submission from '../models/Submission'
 import { sendEmail } from '../utils/sendEmail'
 var moment = require('moment-timezone')
 
-const offset = moment.tz.zone('America/Toronto').utcOffset(moment()) // Positive number of minutes that EST lags UTC
+// const offset = moment.tz.zone('America/Toronto').utcOffset(moment()) BAD WAY
+const offset = () => moment.tz.zone('America/Toronto').utcOffset(moment())
+// Positive number of minutes that EST lags UTC
 
 // console.log(moment().utc().hours())
 
@@ -18,7 +20,7 @@ export const getSubmission = asyncHandler(
       .startOf('day') // May or may not be UTC if ran from server
       .utc() // Convert to UTC from beginning of TZ day
       .startOf('day') // Reset to beginning of actual UTC day
-      .add(offset, 'm') // Add the current offset
+      .add(offset(), 'm') // Add the current offset
 
     // If ran on server, the date could be 1 forward from TZ date
     if (moment().utc().hours() < 4) {
@@ -52,7 +54,7 @@ export const submitSubmission = asyncHandler(
       .startOf('day')
       .utc()
       .startOf('day')
-      .add(offset, 'm')
+      .add(offset(), 'm')
 
     if (moment().utc().hours() < 4) {
       toCompare = toCompare.add(-1, 'd')
@@ -94,7 +96,7 @@ export const checkForConfirmationEmail = asyncHandler(
       .startOf('day')
       .utc()
       .startOf('day')
-      .add(offset, 'm')
+      .add(offset(), 'm')
 
     if (moment().utc().hours() < 4) {
       toCompare = toCompare.add(-1, 'd')
@@ -137,7 +139,7 @@ export const sendConfirmationEmail = asyncHandler(
       .startOf('day')
       .utc()
       .startOf('day')
-      .add(offset, 'm')
+      .add(offset(), 'm')
 
     if (moment().utc().hours() < 4) {
       toCompare = toCompare.add(-1, 'd')

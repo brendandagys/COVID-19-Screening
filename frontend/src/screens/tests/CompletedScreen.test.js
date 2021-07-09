@@ -1,11 +1,6 @@
 import userEvent from '@testing-library/user-event'
 import App from '../../components/App'
-import {
-  render,
-  screen,
-  waitFor,
-  waitForElementToBeRemoved,
-} from '../../test-utils'
+import { render, screen, waitFor } from '../../test-utils'
 import { server } from '../../test-server/server'
 import { rest } from 'msw'
 
