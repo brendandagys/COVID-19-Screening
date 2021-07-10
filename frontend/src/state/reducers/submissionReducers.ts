@@ -45,6 +45,8 @@ export const submissionFetchReducer = (
       return { ...state, userResetFlag: true }
     case ActionType.SUBMISSION_FETCH_FLAG_RESET:
       return { ...state, userResetFlag: false }
+    case ActionType.SUBMISSION_FETCH_FULL_RESET:
+      return { submission: null }
     default:
       return state
   }
@@ -61,6 +63,8 @@ export const submissionCreateReducer = (
       return { submission: action.payload }
     case ActionType.SUBMISSION_CREATE_FAIL:
       return { error: action.payload.error, submission: null }
+    case ActionType.SUBMISSION_CREATE_RESET:
+      return { submission: null }
     default:
       return state
   }
@@ -77,6 +81,8 @@ export const emailFetchReducer = (
       return { loading: false }
     case ActionType.EMAIL_FETCH_FAIL:
       return { error: action.payload.error }
+    case ActionType.EMAIL_FETCH_RESET:
+      return {}
     default:
       return state
   }
@@ -93,6 +99,8 @@ export const emailCreateReducer = (
       return { loading: false }
     case ActionType.EMAIL_CREATE_FAIL:
       return { error: action.payload.error }
+    case ActionType.EMAIL_CREATE_RESET:
+      return {}
     default:
       return state
   }

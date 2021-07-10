@@ -74,6 +74,8 @@ export const registerReducer = (
       return { userInfo: action.payload.userInfo }
     case ActionType.REGISTER_FAIL:
       return { error: action.payload.error, userInfo: null }
+    case ActionType.REGISTER_RESET:
+      return { userInfo: null }
     default:
       return state
   }
@@ -90,6 +92,8 @@ export const userDetailsReducer = (
       return { userInfo: action.payload.userInfo }
     case ActionType.USER_DETAILS_FAIL:
       return { error: action.payload.error, userInfo: null }
+    case ActionType.USER_DETAILS_RESET:
+      return { userInfo: null }
     default:
       return state
   }

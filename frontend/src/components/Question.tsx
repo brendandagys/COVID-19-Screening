@@ -39,9 +39,11 @@ const Question = ({
               style={{ width: '100%' }}
               variant={response === 'yes' ? 'success' : 'secondary'}
               onClick={() => {
-                setResponse('yes')
-                toggleShowFail()
-                response !== null && markQuestionAnswered('subtract')
+                if (response !== 'yes') {
+                  setResponse('yes')
+                  toggleShowFail()
+                  response !== null && markQuestionAnswered('subtract')
+                }
               }}
             >
               Yes

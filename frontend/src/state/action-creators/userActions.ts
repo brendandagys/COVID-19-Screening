@@ -16,6 +16,14 @@ import {
   UserUpdateSuccessAction,
   UserUpdateFailAction,
   UserUpdateResetAction,
+  LogoutAction,
+  RegisterResetAction,
+  UserDetailsResetAction,
+  QuestionsFetchResetAction,
+  SubmissionCreateResetAction,
+  EmailFetchResetAction,
+  EmailCreateResetAction,
+  SubmissionFetchFullResetAction,
 } from '../actions'
 
 export const login =
@@ -58,10 +66,32 @@ export const login =
     }
   }
 
-export const logout = () => {
-  localStorage.removeItem('userInfo')
-  return { type: ActionType.LOGOUT }
-}
+export const logout =
+  () =>
+  async (
+    dispatch: Dispatch<
+      | LogoutAction
+      | RegisterResetAction
+      | UserDetailsResetAction
+      | UserUpdateResetAction
+      | QuestionsFetchResetAction
+      | SubmissionFetchFullResetAction
+      | SubmissionCreateResetAction
+      | EmailFetchResetAction
+      | EmailCreateResetAction
+    >
+  ) => {
+    localStorage.removeItem('userInfo')
+    dispatch({ type: ActionType.LOGOUT })
+    dispatch({ type: ActionType.REGISTER_RESET })
+    dispatch({ type: ActionType.USER_DETAILS_RESET })
+    dispatch({ type: ActionType.USER_UPDATE_RESET })
+    dispatch({ type: ActionType.QUESTIONS_FETCH_RESET })
+    dispatch({ type: ActionType.SUBMISSION_FETCH_FULL_RESET })
+    dispatch({ type: ActionType.SUBMISSION_CREATE_RESET })
+    dispatch({ type: ActionType.EMAIL_FETCH_RESET })
+    dispatch({ type: ActionType.EMAIL_CREATE_RESET })
+  }
 
 export const register =
   (

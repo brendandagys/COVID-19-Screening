@@ -54,19 +54,34 @@ describe('FormScreen tests', () => {
     expect(
       screen.queryByRole('button', { name: 'Okay' })
     ).not.toBeInTheDocument()
+
+    // Clicking 'Yes' again immediately should not display Contact Us modal
+    userEvent.click(screen.getAllByRole('button', { name: 'Yes' })[0])
+    await waitFor(() =>
+      expect(screen.queryByText('Contact Us')).not.toBeInTheDocument()
+    )
   })
 
-  test('Answering "no" to all questions shows Submit button', async () => {
+  test('Answering "No" to all questions shows Submit button', async () => {
     const noButtons = screen.getAllByRole('button', { name: 'No' })
     noButtons.forEach((button) => userEvent.click(button))
     expect(screen.getByRole('button', { name: 'Submit' })).toBeInTheDocument()
   })
 
-  test('Answering "yes" to question hides Submit button', async () => {
+  test('Answering "Yes" to question hides Submit button', async () => {
     userEvent.click(screen.getAllByRole('button', { name: 'Yes' })[0])
     expect(screen.getByText('Contact Us')).toBeInTheDocument()
 
-    userEvent.click(screen.getByRole('button', { name: 'Okay' }))
+    await waitFor(() =>
+      userEvent.click(screen.getByRole('button', { name: 'Okay' }))
+    )
+
+    // Clicking 'Yes' again immediately should not display Contact Us modal
+    // Also testing that multiple 'Yes' clicks don't permanently hide button
+    userEvent.click(screen.getAllByRole('button', { name: 'Yes' })[0])
+    await waitFor(() =>
+      expect(screen.queryByText('Contact Us')).not.toBeInTheDocument()
+    )
 
     expect(
       screen.queryByRole('button', { name: 'Submit' })

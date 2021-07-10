@@ -19,6 +19,8 @@ export const questionsFetchReducer = (
       return { questions: action.payload }
     case ActionType.QUESTIONS_FETCH_FAIL:
       return { error: action.payload.error, questions: null }
+    case ActionType.QUESTIONS_FETCH_RESET:
+      return { questions: null }
     default:
       return state
   }
