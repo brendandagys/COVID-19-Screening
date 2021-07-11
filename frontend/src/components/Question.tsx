@@ -22,7 +22,7 @@ const Question = ({
   return (
     <Card
       border={
-        response === 'yes' ? 'success' : response === 'no' ? 'danger' : ''
+        response === 'yes' ? 'danger' : response === 'no' ? 'success' : ''
       }
       className='my-3'
     >
@@ -37,7 +37,7 @@ const Question = ({
           <Col>
             <Button
               style={{ width: '100%' }}
-              variant={response === 'yes' ? 'success' : 'secondary'}
+              variant={response === 'yes' ? 'danger' : 'secondary'}
               onClick={() => {
                 if (response !== 'yes') {
                   setResponse('yes')
@@ -52,7 +52,7 @@ const Question = ({
           <Col>
             <Button
               style={{ width: '100%' }}
-              variant={response === 'no' ? 'danger' : 'secondary'}
+              variant={response === 'no' ? 'success' : 'secondary'}
               onClick={() => {
                 setResponse('no')
                 response !== 'no' && markQuestionAnswered('add')
