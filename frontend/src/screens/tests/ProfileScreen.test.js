@@ -1,4 +1,4 @@
-import { render, screen } from '../../test-utils'
+import { render, screen, waitFor } from '../../test-utils'
 import userEvent from '@testing-library/user-event'
 import App from '../../components/App'
 import { server } from '../../test-server/server'
@@ -35,9 +35,9 @@ describe('ProfileScreen tests', () => {
 
   test('Username/email already exists error', async () => {
     server.use(
-      rest.get('/api/users/profile', async (req, res, ctx) => {
+      rest.put('/api/users/profile', async (req, res, ctx) => {
         return res(
-          ctx.status(500),
+          ctx.status(400),
           ctx.json({
             message: 'Username is already in use',
             stack: 'test',
@@ -52,17 +52,20 @@ describe('ProfileScreen tests', () => {
     const username = screen.getByLabelText('Username')
     const password1 = screen.getByLabelText('Password')
     const password2 = screen.getByLabelText('Confirm Password')
-    const updateButton = screen.getByRole('button', { name: 'Update' })
 
-    userEvent.type(firstName, 'Brendan')
+    // Must waitFor because we need to wait to userInfo from getUserDetails() action, which is required for submitHandler() to be called
+    await waitFor(() => userEvent.type(firstName, 'Brendan'))
     userEvent.type(lastName, 'Dagys')
     userEvent.type(email, 'brendan@example.com')
     userEvent.type(username, 'brendan')
     userEvent.type(password1, 'password')
     userEvent.type(password2, 'password')
 
+    const updateButton = screen.getByRole('button', { name: 'Update' })
+
     userEvent.click(updateButton)
 
+    // TEST APPEARANCE/DISAPPEARANCE OF SPINNER
     // expect(screen.queryByRole('status')).toBeInTheDocument()
 
     // await waitFor(() => {
@@ -74,7 +77,7 @@ describe('ProfileScreen tests', () => {
     ).toBeInTheDocument()
   })
 
-  test.only('Can update profile', async () => {
+  test('Can update profile', async () => {
     const firstName = screen.getByLabelText('First Name')
     const lastName = screen.getByLabelText('Last Name')
     const email = screen.getByLabelText('Email')
@@ -82,15 +85,18 @@ describe('ProfileScreen tests', () => {
     const password1 = screen.getByLabelText('Password')
     const password2 = screen.getByLabelText('Confirm Password')
 
-    userEvent.type(firstName, 'Jordan')
+    // Must waitFor because we need to wait to userInfo from getUserDetails() action, which is required for submitHandler() to be called
+    await waitFor(() => userEvent.type(firstName, 'Jordan'))
     userEvent.type(lastName, 'Dagis')
     userEvent.type(email, 'jordan@example.com')
     userEvent.type(username, 'jordan')
-    userEvent.type(password1, 'password')
-    userEvent.type(password2, 'password')
+    userEvent.type(password1, '1234567')
+    userEvent.type(password2, '1234567')
+
     const updateButton = screen.getByRole('button', { name: 'Update' })
+
     userEvent.click(updateButton)
-    // screen.debug()
+
     expect(
       await screen.findByText('Your profile is updated!')
     ).toBeInTheDocument()

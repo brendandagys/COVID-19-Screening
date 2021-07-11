@@ -35,7 +35,7 @@ const ProfileScreen = (): JSX.Element => {
       setUsername(userInfo.username)
       setIsAdministrator(userInfo.isAdministrator)
     }
-  }, [confirmPassword, getUserDetails, password, userInfo])
+  }, [userInfo, getUserDetails])
 
   const submitHandler = (e: React.SyntheticEvent) => {
     e.preventDefault()

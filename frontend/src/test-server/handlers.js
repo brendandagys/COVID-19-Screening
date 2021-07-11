@@ -80,34 +80,34 @@ export const handlers = [
     return res(ctx.status(201), ctx.json({ emailSent: true }))
   }),
 
-  // rest.get('/api/users/profile', (req, res, ctx) => {
-  //   return res(
-  //     ctx.status(200),
-  //     ctx.json({
-  //       _id: 'id',
-  //       firstName: 'Brendan',
-  //       lastName: 'Dagys',
-  //       email: 'brendan@example.com',
-  //       username: 'brendan',
-  //       isAdministrator: false,
-  //     })
-  //   )
-  // }),
+  rest.get('/api/users/profile', (req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json({
+        _id: 'id',
+        firstName: 'Brendan',
+        lastName: 'Dagys',
+        email: 'brendan@example.com',
+        username: 'brendan',
+        isAdministrator: false,
+      })
+    )
+  }),
 
-  // rest.put('/api/users/profile', (req, res, ctx) => {
-  //   return res(
-  //     ctx.status(200),
-  //     ctx.json({
-  //       _id: 'id',
-  //       firstName: 'Brendan',
-  //       lastName: 'Dagys',
-  //       email: 'brendan@example.com',
-  //       username: 'brendan',
-  //       isAdministrator: false,
-  //       token: 'token',
-  //     })
-  //   )
-  // }),
+  rest.put('/api/users/profile', (req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json({
+        _id: 'id',
+        firstName: 'Brendan',
+        lastName: 'Dagys',
+        email: 'brendan@example.com',
+        username: 'brendan',
+        isAdministrator: false,
+        token: 'token',
+      })
+    )
+  }),
 
   rest.post('/api/users', (req, res, ctx) => {
     return res(
