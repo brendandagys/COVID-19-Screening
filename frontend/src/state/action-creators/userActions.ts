@@ -53,7 +53,7 @@ export const login =
       })
 
       localStorage.setItem('userInfo', JSON.stringify(data))
-    } catch (e) {
+    } catch (e: any) {
       dispatch({
         type: ActionType.LOGIN_FAIL,
         payload: {
@@ -139,7 +139,7 @@ export const register =
       })
 
       localStorage.setItem('userInfo', JSON.stringify(data))
-    } catch (e) {
+    } catch (e: any) {
       dispatch({
         type: ActionType.REGISTER_FAIL,
         payload: {
@@ -183,7 +183,7 @@ export const getUserDetails =
         type: ActionType.USER_DETAILS_SUCCESS,
         payload: { userInfo: data },
       })
-    } catch (e) {
+    } catch (e: any) {
       dispatch({
         type: ActionType.USER_DETAILS_FAIL,
         payload: {
@@ -234,7 +234,7 @@ export const updateUser =
         type: ActionType.USER_DETAILS_SUCCESS,
         payload: { userInfo: data },
       })
-    } catch (e) {
+    } catch (e: any) {
       dispatch({
         type: ActionType.USER_UPDATE_FAIL,
         payload: {

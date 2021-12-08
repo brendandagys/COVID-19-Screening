@@ -50,7 +50,7 @@ export const fetchSubmission =
         type: ActionType.SUBMISSION_FETCH_SUCCESS,
         payload: data,
       })
-    } catch (e) {
+    } catch (e: any) {
       dispatch({
         type: ActionType.SUBMISSION_FETCH_FAIL,
         payload: {
@@ -121,7 +121,7 @@ export const createSubmission =
           payload: data,
         })
       }
-    } catch (e) {
+    } catch (e: any) {
       dispatch({
         type: ActionType.SUBMISSION_CREATE_FAIL,
         payload: {
@@ -163,7 +163,7 @@ export const fetchEmail =
         type: ActionType.EMAIL_FETCH_SUCCESS,
         payload: data.emailSent,
       })
-    } catch (e) {
+    } catch (e: any) {
       dispatch({
         type: ActionType.EMAIL_FETCH_FAIL,
         payload: {
@@ -213,7 +213,7 @@ export const createEmail =
         type: ActionType.EMAIL_CREATE_SUCCESS,
         payload: data,
       })
-    } catch (e) {
+    } catch (e: any) {
       dispatch({
         type: ActionType.EMAIL_CREATE_FAIL,
         payload: {

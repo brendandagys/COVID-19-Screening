@@ -38,7 +38,7 @@ export const getQuestions =
         type: ActionType.QUESTIONS_FETCH_SUCCESS,
         payload: data,
       })
-    } catch (e) {
+    } catch (e: any) {
       dispatch({
         type: ActionType.QUESTIONS_FETCH_FAIL,
         payload: {
