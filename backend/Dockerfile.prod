@@ -4,4 +4,4 @@ COPY ["package.json", "package-lock.json", "./"]
 RUN npm i --production
 COPY . .
 EXPOSE 82
-CMD ["node", "server.js"]
+CMD ["node", "server.ts"]
