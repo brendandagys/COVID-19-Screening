@@ -9,7 +9,8 @@
   "main": "dist/server.js",
   "scripts": {
     "start": "node dist/server.js",
-    "dev": "concurrently \"tsc && nodemon --watch 'backend/**/*.ts' --exec 'ts-node' backend/server.ts\" \"wait-on http://localhost:5000 && npm start --prefix frontend\"",
+    "dev": "concurrently \"tsc -w\" \"nodemon --watch './**/*.ts' --exec 'ts-node' server.ts\" \"npm start --prefix ../frontend\"",
+    "devOld": "concurrently \"tsc && nodemon --watch 'backend/**/*.ts' --exec 'ts-node' server.ts\" \"wait-on http://localhost:5000 && npm start --prefix ../frontend\"",
     "postinstall": "tsc",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
   },
