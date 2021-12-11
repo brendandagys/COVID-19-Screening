@@ -13,7 +13,7 @@ export const protect = expressAsyncHandler(
         token = req.headers.authorization.split(' ')[1]
         const decoded = jwt.verify(
           token,
-          process.env.JWT_SECRET as string
+          process.env.JWT_SECRET_SCREENING as string
         ) as IToken
 
         // Attach user details object to the request object for use
