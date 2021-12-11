@@ -1,0 +1,7 @@
+FROM node:14.17-alpine
+WORKDIR /usr/src/backend
+COPY ["package.json", "package-lock.json", "./"]
+RUN npm i --production
+COPY . .
+EXPOSE 81
+CMD ["node", "server.js"]
