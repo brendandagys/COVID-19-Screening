@@ -1,7 +1,12 @@
+FROM node:14.17 as builder
+WORKDIR /usr/src/backend
+COPY . .
+RUN npm i typescript && npx tsc -p ./tsconfig.json
+
 FROM node:14.17-alpine
 WORKDIR /usr/src/backend
+COPY --from=builder usr/src/backend/dist ./dist
 COPY ["package.json", "package-lock.json", "./"]
 RUN npm i --production
-COPY . .
 EXPOSE 82
-CMD ["node", "server.ts"]
+CMD ["node", "dist/server.js"]

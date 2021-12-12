@@ -2,8 +2,9 @@ import express from 'express'
 
 import path from 'path'
 import dotenv from 'dotenv'
+dotenv.config()
 // dotenv.config({ path: __dirname + '/../.env' })
-dotenv.config({ path: __dirname + (process.env.ENVPATH ?? '/.env') })
+// dotenv.config({ path: __dirname + (process.env.ENVPATH ?? '/.env') })
 
 import { notFoundHandler, errorHandler } from './middleware/errorMiddleware'
 
@@ -14,13 +15,14 @@ import submissionRoutes from './routes/submissionRoutes'
 import connectDatabase from './config/database'
 connectDatabase()
 
+const ORIGIN = process.env.ORIGIN ?? 'http://localhost:3000'
 const PORT = process.env.PORT ?? 80
 
 const app = express()
 
 app.use((req, res, next) => {
   res.set({
-    'Access-Control-Allow-Origin': 'https://screening.brendandagys.com',
+    'Access-Control-Allow-Origin': ORIGIN,
     Vary: 'Origin',
   })
   next()
@@ -33,12 +35,12 @@ app.use('/api/questions', questionRoutes)
 app.use('/api/submissions', submissionRoutes)
 
 app.get('/api/health', (req, res) => {
-  res.send('API server for site is healthy!')
+  res.send('API server for Screening App is healthy!')
 })
 
 app.get('*', (req, res) => {
   res.send(
-    `API server for Screening running in ${process.env.NODE_ENV} on port ${PORT}...`
+    `API server for Screening App running in ${process.env.NODE_ENV} on port ${PORT}...`
   )
 })
 
