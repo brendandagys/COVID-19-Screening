@@ -8,5 +8,5 @@ WORKDIR /usr/src/backend
 COPY --from=builder usr/src/backend/dist ./dist
 COPY ["package.json", "package-lock.json", "./"]
 RUN npm i --production
-EXPOSE 82
+EXPOSE 1082
 CMD ["node", "dist/server.js"]
