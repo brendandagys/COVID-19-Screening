@@ -15,7 +15,7 @@ import submissionRoutes from './routes/submissionRoutes'
 import connectDatabase from './config/database'
 connectDatabase()
 
-const ORIGIN = process.env.ORIGIN ?? 'http://localhost:3000'
+const ORIGIN = process.env.ORIGIN ?? 'http://localhost:3002'
 const PORT = process.env.PORT ?? 80
 
 const app = express()
