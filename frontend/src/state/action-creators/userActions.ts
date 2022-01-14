@@ -205,6 +205,7 @@ export const updateUser =
       | UserUpdateSuccessAction
       | UserUpdateFailAction
       | UserUpdateResetAction
+      | LoginSuccessAction
     >,
     getState: any
   ) => {
@@ -232,6 +233,11 @@ export const updateUser =
 
       dispatch({
         type: ActionType.USER_DETAILS_SUCCESS,
+        payload: { userInfo: data },
+      })
+
+      dispatch({
+        type: ActionType.LOGIN_SUCCESS,
         payload: { userInfo: data },
       })
     } catch (e: any) {
