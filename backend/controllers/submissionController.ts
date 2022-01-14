@@ -116,8 +116,9 @@ export const checkForConfirmationEmail = asyncHandler(
     if (submission?.emailed) {
       res.json({ emailSent: true })
     } else {
-      res.status(404)
-      throw new Error('You have not sent an email confirmation today')
+      res.json({ emailSent: false })
+      // res.status(404)
+      // throw new Error('You have not sent an email confirmation today')
     }
   }
 )

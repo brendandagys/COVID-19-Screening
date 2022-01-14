@@ -157,12 +157,21 @@ export const fetchEmail =
           Authorization: `Bearer ${userInfo.token}`,
         },
       }
-      const { data } = await axios.get('/api/submissions/email', config)
+      const {
+        data: { emailSent },
+      } = await axios.get('/api/submissions/email', config)
 
-      dispatch({
-        type: ActionType.EMAIL_FETCH_SUCCESS,
-        payload: data.emailSent,
-      })
+      if (emailSent) {
+        dispatch({
+          type: ActionType.EMAIL_FETCH_SUCCESS,
+          payload: emailSent,
+        })
+      } else {
+        dispatch({
+          type: ActionType.EMAIL_FETCH_FAIL,
+          payload: { error: 'Email not yet sent.' },
+        })
+      }
     } catch (e: any) {
       dispatch({
         type: ActionType.EMAIL_FETCH_FAIL,

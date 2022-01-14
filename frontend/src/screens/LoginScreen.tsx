@@ -80,6 +80,10 @@ const LoginScreen = (): JSX.Element => {
           </Link>
         </Col>
       </Row>
+
+      <h2 className='text-info mt-5 mb-4'>Just want to check out the site?</h2>
+      <h3 className='text-success'>U: test</h3>
+      <h3 className='text-success'>P: test</h3>
     </FormContainer>
   )
 }
