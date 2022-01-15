@@ -106,6 +106,12 @@ export const getUserProfile = asyncHandler(
 // @access  Private
 export const updateUserProfile = asyncHandler(
   async (req: IRequest, res: Response) => {
+    console.log(req.user._id)
+    if (req.user._id == '60f0c851d0affe00152104a7') {
+      res.status(400)
+      throw new Error("'Test' user cannot be edited")
+    }
+
     const user: IUser | null = await User.findById(req.user._id)
 
     if (user) {
