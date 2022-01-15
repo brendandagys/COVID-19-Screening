@@ -49,11 +49,16 @@ export const fetchSubmission =
         `/api/submissions?tzoffset=${new Date().getTimezoneOffset()}`,
         config
       )
-
-      dispatch({
-        type: ActionType.SUBMISSION_FETCH_SUCCESS,
-        payload: data,
-      })
+      // console.log(data)
+      data
+        ? dispatch({
+            type: ActionType.SUBMISSION_FETCH_SUCCESS,
+            payload: data,
+          })
+        : dispatch({
+            type: ActionType.SUBMISSION_FETCH_FAIL,
+            payload: { error: 'No submission for today' },
+          })
     } catch (e: any) {
       dispatch({
         type: ActionType.SUBMISSION_FETCH_FAIL,

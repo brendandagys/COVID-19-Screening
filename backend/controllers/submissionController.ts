@@ -55,12 +55,13 @@ export const getSubmission = asyncHandler(
         $gte: toCompare.toDate(),
       }, // .toDate() returns JavaScript Date
     })
-
     if (submission) {
+      // console.log(submission)
       res.json(submission)
     } else {
-      res.status(404)
-      throw new Error('You have not completed the screening today')
+      res.json(null)
+      // res.status(404)
+      // throw new Error('You have not completed the screening today')
     }
   }
 )
