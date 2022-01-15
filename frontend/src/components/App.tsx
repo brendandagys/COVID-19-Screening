@@ -15,6 +15,9 @@ const App = (): JSX.Element => {
     (state) => state.submissionFetch
   )
 
+  console.log({ submission })
+  console.log({ userResetFlag })
+
   const history = useHistory()
 
   useEffect(() => {

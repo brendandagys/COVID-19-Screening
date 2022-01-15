@@ -29,6 +29,7 @@ export const fetchSubmission =
     >,
     getState: any
   ) => {
+    console.log('Timezone offset:', new Date().getTimezoneOffset())
     try {
       dispatch({
         type: ActionType.SUBMISSION_FETCH_REQUEST,
@@ -44,7 +45,10 @@ export const fetchSubmission =
           Authorization: `Bearer ${userInfo.token}`,
         },
       }
-      const { data } = await axios.get('/api/submissions', config)
+      const { data } = await axios.get(
+        `/api/submissions?tzoffset=${new Date().getTimezoneOffset()}`,
+        config
+      )
 
       dispatch({
         type: ActionType.SUBMISSION_FETCH_SUCCESS,

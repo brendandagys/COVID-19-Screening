@@ -16,20 +16,38 @@ const offset = () => moment.tz.zone('America/Toronto').utcOffset(moment())
 // @access  Private
 export const getSubmission = asyncHandler(
   async (req: IRequest, res: Response) => {
-    if (process.env.NODE_ENV !== 'development') {
-      var toCompare = moment()
-        .startOf('day') // May or may not be UTC if ran from server
-        .utc() // Convert to UTC from beginning of TZ day
-        .startOf('day') // Reset to beginning of actual UTC day
-        .add(offset(), 'm') // Add the current offset
+    let tzoffsetStr = req.query.tzoffset?.toString() ?? '0'
+    let tzoffset = parseInt(tzoffsetStr) // `getTimezoneOffset()` returns + for TZs that lag UTC
+    console.log({ tzoffset })
+    // console.log(moment())
+    // console.log(moment().utc())
+    // console.log(
+    //   moment()
+    //     .utc()
+    //     .add(tzoffset * -1, 'minutes')
+    // )
 
-      // If ran on server, the date could be 1 forward from TZ date
-      if (moment().utc().hours() < 4) {
-        toCompare = toCompare.add(-1, 'd')
-      }
-    } else {
-      var toCompare = moment().startOf('day')
-    }
+    const toCompare = moment()
+      .utc()
+      .add(tzoffset * -1, 'minutes')
+      .startOf('day')
+      .add(tzoffset, 'minutes')
+
+    console.log(toCompare)
+    // if (process.env.NODE_ENV !== 'development') {
+    //   var toCompare = moment()
+    //     .startOf('day') // May or may not be UTC if ran from server
+    //     .utc() // Convert to UTC from beginning of TZ day
+    //     .startOf('day') // Reset to beginning of actual UTC day
+    //     .add(offset(), 'm') // Add the current offset
+
+    //   // If ran on server, the date could be 1 forward from TZ date
+    //   if (moment().utc().hours() < 4) {
+    //     toCompare = toCompare.add(-1, 'd')
+    //   }
+    // } else {
+    //   var toCompare = moment().startOf('day')
+    // }
 
     const submission = await Submission.findOne({
       user: req.user._id,
